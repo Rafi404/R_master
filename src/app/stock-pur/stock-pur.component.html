@@ -1,0 +1,290 @@
+<div class="main-content">
+  <!-- <div class="container-fluid"></div> -->
+    <div class="col-md-12">
+      <mat-tab-group>
+
+        <mat-tab label="Stock View"> 
+          
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z10">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> No </th>
+              <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="item">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+              <td mat-cell *matCellDef="let element"> {{element.item}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+              <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="currency">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
+              <td mat-cell *matCellDef="let element"> {{element.currency}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="qty">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+              <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+              <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="invo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.invo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="gid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Grant-id </th>
+              <td mat-cell *matCellDef="let element"> {{element.gid}} </td>
+            </ng-container>
+          
+            <tr mat-header-row class='head_color' *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-tab>
+        <mat-tab label="Add Stock">
+              <div class="col-md-12">
+
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <h4 class="card-title">Add Stock</h4>
+                        <p class="card-category">Enter Stock Details</p>
+                      </div>
+                     
+                      <div class="col-md-6 text-right">
+                        <button mat-button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" type="submit" >Add New Item</button>
+                      </div>           
+                    </div>
+                   
+                       
+                  </div>
+                  <form [formGroup]="pur_add" (ngSubmit)="onSubmitPur()">
+                    <div class="card-body">
+          
+                      <div class="row">
+                        <div class="table-responsive">
+                          <table class="table table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Currency</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit</th>
+                                <th scope="col">Invoice Number</th>
+                                <th scope="col">Grant-id</th>
+                              </tr>
+                            </thead>
+                            <tbody formArrayName="stock">
+                              <tr *ngFor="let one of s.controls; index as i" [formGroupName]="i">
+                                <th scope="row">
+                                  <mat-form-field class="example">
+                                    <input matInput value="" formControlName="item" #item>
+                                  </mat-form-field>
+                                </th>
+                                <td>
+                                  <mat-form-field class="example">
+                                    <input matInput value="" formControlName="price" #price>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field>
+                                    <mat-label>Select Currency</mat-label>
+                                    <mat-select formControlName="currency" #currency>
+                                      <mat-option *ngFor="let cur of curs" [value]="cur.value">
+                                        {{cur.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field class="example">
+                                    <input matInput formControlName="qty" #qty>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field>
+                                    <mat-label>Select Unit</mat-label>
+                                    <mat-select formControlName="unit" #unit>
+                                      <mat-option *ngFor="let unit of units" [value]="unit.value">
+                                        {{unit.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field class="example">
+                                    <input matInput formControlName="invoice" #invoice value="">
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field class="example">
+                                    <input matInput value="" formControlName="grant_id" #grant_id>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon"
+                                  (click)="onAddStock()">
+                                  <mat-icon>add</mat-icon>
+                                </button>
+                                </td>
+          
+                                <td>
+                                  <button mat-icon-button color="accent"  *ngIf="i!=0"
+                                  (click)="onRemoveRow(i)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>
+                                </td>
+          
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!-- <table mat-table [dataSource]="stk_pur" class="mat-elevation-z8">
+                      <ng-container matColumnDef="No">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> 
+                          <mat-form-field class="example">
+                            <input matInput formControlName="no">
+                          </mat-form-field>
+                         </td>
+                      </ng-container>
+                
+                      <ng-container matColumnDef="item">
+                        <th mat-header-cell *matHeaderCellDef> Item </th>
+                        <td mat-cell *matCellDef="let element">  </td>
+                      </ng-container>
+                    
+                      
+                      <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef> Price </th>
+                        <td mat-cell *matCellDef="let element">  </td>
+                      </ng-container>
+                    
+                      <ng-container matColumnDef="qtypur">
+                        <th mat-header-cell *matHeaderCellDef> Quantity Purchased </th>
+                        <td mat-cell *matCellDef="let element">  </td>
+                      </ng-container>
+          
+                      <ng-container matColumnDef="unit">
+                        <th mat-header-cell *matHeaderCellDef> Unit </th>
+                        <td mat-cell *matCellDef="let element">  </td>
+                      </ng-container>
+                      <ng-container matColumnDef="invo">
+                        <th mat-header-cell *matHeaderCellDef> Invoice </th>
+                        <td mat-cell *matCellDef="let element">  </td>
+                      </ng-container>
+                      <ng-container matColumnDef="gid">
+                        <th mat-header-cell *matHeaderCellDef> Grant-id </th>
+                        <td mat-cell *matCellDef="let element">  </td>
+                      </ng-container>
+                      
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table> -->
+                      <!-- <div class="row">
+                        <div class="col-md-12 text-right">
+                        
+                        </div>
+                      </div> -->
+                      <div class="row">
+                        <div class="col-md-12  text-center">
+                          <button mat-button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            <!-- </div> -->
+        </mat-tab>
+      </mat-tab-group>
+    <!-- </div> -->
+  <!-- </div> -->
+
+
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Add Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form [formGroup]="item_add" (ngSubmit)="onSubmitItem()">
+        
+
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Item" formControlName="items" #use>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Use" formControlName="use" #use>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Specification" formControlName="spec" #spec>
+                </mat-form-field>
+              </div>
+            </div>
+  
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <mat-form-field>
+                  <mat-label>Select Type</mat-label>
+                  <mat-select formControlName="type"  #type tabindex="-2">
+                    <mat-option  *ngFor="let type of types" [value]="type.value">
+                      {{type.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+  
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Mesuaring Unit" formControlName="qty">
+                </mat-form-field>
+              </div>
+            </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" type="submit">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

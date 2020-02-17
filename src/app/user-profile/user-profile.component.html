@@ -1,0 +1,252 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Add Books</h4>
+                        <p class="card-category">Enter Book Details</p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="bookform" (ngSubmit)="onAddBook()">
+                            <div class="row">
+                                        
+                                        <div class="col-md-3">
+                                          <mat-form-field class="example-full-width">      
+                                              <input matInput placeholder="Book NO (disabled)" disabled> 
+                                               </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Book Call Number" type="text" formControlName="book_callno" #book_callno>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Book Isbn" type="text"  formControlName="book_isbn"
+                                              #book_isbn>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Imprint" type="text" formControlName="book_imprint" #book_imprint>
+                                          </mat-form-field>
+                                      </div>
+                            </div>
+                            <div class="row">
+                                        <div class="col-md-6">
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Book Title" type="text" formControlName="book_title" #book_title>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6"> 
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Author Name" type="text" matInput formControlName="book_author"#book_author [matAutocomplete]="book_author">
+                                            <button mat-icon-button matSuffix data-toggle="modal" data-target="#authormodel"><mat-icon mat-icon-button matSuffix >person_add</mat-icon></button>
+                                            <mat-autocomplete #book_author="matAutocomplete" [displayWith]="displayFn">
+                                              <div *ngFor="let author of authors">
+                                              <mat-option  [value]="author">{{author.author_name}}
+                                              </mat-option></div>
+                                            </mat-autocomplete>
+                                          </mat-form-field>
+                        
+                                        </div>
+                                 
+                          
+
+
+                            </div>
+                                <!-- Model for adding new author -->
+                            <div class="modal fade" id="authormodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="card">
+                                          <div class="card-header card-header-primary">
+                                              <h4 class="card-title">Add New Author</h4>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                          </div>
+                                         
+                                          <div class="card-body">
+                                              <form [formGroup]="authorform" (ngSubmit)="onAddAuthor()">
+                                                  <div class="row">
+                                                    <div class="col-md-12 ">
+                                                     <mat-form-field class="example-full-width">
+                                                     <input matInput placeholder="Author Name" type="text"
+                                                     formControlName="author_name" #author_name>
+                                                    </mat-form-field> 
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                    <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Nick Name"  type="text" formControlName="nick_name" #nick_name>
+                                                    </mat-form-field>
+                                                    </div>
+                                                </div>                  
+                                          
+                                              <div class="modal-footer">
+                                              <button type="submit" class="btn btn-primary">Save changes</button>
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                          </form>
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!--            -->
+                            <div class="row">
+                              
+                          
+                                        <div class="col-md-3">
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Book Fund" type="text" formControlName="book_fund" #book_fund>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-md-2">
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Bill Date" type="date" formControlName="book_billdate" #book_billdate>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-md-2">
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Book DDC" type="text" formControlName="book_ddc" #book_ddc>
+                                          </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Sub DDC" type="text" formControlName="book_subddc" #book_subddc>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-2">
+                                              <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Book Subject" type="text" formControlName="book_subject" #book_subject>
+                                              </mat-form-field>
+                                        </div>
+                            </div>
+                            <div class="row">
+                                          <div class="col-md-4">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Book Subtitle" type="text" formControlName="book_subtitle" #book_subtitle >
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Book Pages" type="number"formControlName="book_pages" #book_pages>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-2">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Book Status" type="text"formControlName="book_status" #book_status>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput placeholder="Book Supplier" type="text"formControlName="book_supplier" #book_supplier>
+                                            </mat-form-field>
+                                          </div>
+                            </div>
+                            <div class="row">
+                                            <div class="col-md-2">
+                                              <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Year" type="number"formControlName="book_year" #book_year>
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                              <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Book Edition" type="text"formControlName="book_edition" #book_edition>
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                              <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Book Publication-date" type="date" formControlName="book_pubdate" #book_pubdate>
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mat-form-field class="example-full-width">
+                                                  <input matInput placeholder="Series" type="text" formControlName="book_series" #book_series>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                                  <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Copies" type="number" formControlName="book_copies" #book_copies>
+                                                  </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                                    <mat-form-field class="example-full-width">
+                                                      <input matInput placeholder="Book Volume" type="number" formControlName="book_volume" #book_volume>
+                                                    </mat-form-field>
+                                            </div>
+                            </div>
+                            <div class="row">
+                                              <div class="col-md-3">
+                                                <mat-form-field class="example-full-width">
+                                                  <input matInput placeholder="Book remarks" type="text" formControlName="book_remarks" #book_remarks>
+                                                </mat-form-field>
+                                              </div>
+                                              <div class="col-md-2">
+                                                <mat-form-field class="example-full-width">
+                                                  <input matInput placeholder="Book Number" type="text" formControlName="book_number" #book_number>
+                                                </mat-form-field>
+                                              </div>
+                                              <div class="col-md-2">
+                                                <mat-form-field class="example-full-width">
+                                                  <input matInput placeholder="Book Price" type="text" formControlName="book_price" #book_price>
+                                                </mat-form-field>
+                                              </div>
+                                              <div class="col-md-3">
+                                                  <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Language" type="text" formControlName="book_language" #book_language>
+                                                  </mat-form-field>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <mat-form-field class="example-full-width">
+                                                      <input matInput placeholder="Bill Number" type="text" formControlName="book_billno" #book_billno>
+                                                    </mat-form-field>
+                                                  </div>
+                            </div>
+                            
+                             <!-- <div class="row">
+                                <div class="col-md-12">
+                                  <label>About Me</label>
+                                  <mat-form-field class="example-full-width">
+                                     <textarea matInput placeholder="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."></textarea>
+                                   </mat-form-field>
+                                     <div class="form-group">
+  
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
+                                            <textarea class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>  -->
+                            <button mat-raised-button type="submit" class="btn btn-primary pull-right">Add Books</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img" src="./assets/img/faces/marc.jpg" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">CEO / Co-Founder</h6>
+                        <h4 class="card-title">Alec Thompson</h4>
+                        <p class="card-description">
+                            Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                        </p>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-round">Follow</a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>   
+  </div>
+
+  
+  

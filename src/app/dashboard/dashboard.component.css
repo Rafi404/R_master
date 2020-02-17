@@ -1,0 +1,11 @@
+th.mat-sort-header-sorted {
+    color: black;
+  }
+.hide {
+  display: none;
+  }
+mat-footer-row mat-footer-cell{
+   display: flex;
+   justify-content: center; 
+   align-items: center;
+}

@@ -1,0 +1,49 @@
+<div class="main-content ">
+  <div class="container main-div">
+      <!-- <button class="btn btn-primary" onclick="showNotification('top','right')">Top Right Notification</button> -->
+     <div class="col-md-6">
+      <div class="card" >
+          <div class="card-header card-header-icon card-header-rose">
+            <div class="card-icon">
+              <i class="material-icons">lock</i>
+            </div>
+            <h4 class="card-title">Login</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="loginform" (ngSubmit)="onSubmit()">
+            <div class="row form-div">
+              <div class="col-md-10 ">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="User ID" formControlName="userid" #userid autocomplete="off">
+                                  </mat-form-field> 
+              </div>
+              <div class="col-md-10">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Email_address"  type="email" formControlName="email"
+                                    #email autocomplete="off">
+                              
+                                  </mat-form-field>
+              </div>
+              <div class="col-md-10">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Password" type="password" formControlName="password" 
+                                    #Password>
+                                  </mat-form-field>
+              </div>
+             </div>
+                              <div class="row">
+                                <div class="col text-center">
+                              <button mat-raised-button type="submit" class="btn btn-primary" >
+                              Login</button>
+                              <a href="#" class="link"> Forgot password..?</a>
+                            </div>
+                              </div>
+                              </form>
+                            
+          </div>
+      </div>
+  </div> 
+  </div>
+</div>
+
+

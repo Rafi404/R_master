@@ -1,0 +1,296 @@
+<div class="main-content">
+  <div class="container-fluid">
+    
+      <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">Add Books</h4>
+                    <p class="card-category">Enter Book Details</p>
+                </div>
+                 <!-- Model for adding new author -->
+                 <div class="modal fade" id="authormodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-target="#authormodel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title">Add New Author</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                            </div>
+                           
+                            <div class="card-body">
+                                <form [formGroup]="authorform" (ngSubmit)="onAddAuthor()">
+                                    <div class="row">
+                                      <div class="col-md-12 ">
+                                       <mat-form-field class="example-full-width">
+                                       <input matInput placeholder="Author Name" type="text"
+                                       formControlName="author_name" #author_name>
+                                      </mat-form-field> 
+                                      </div>
+                                      <div class="col-md-12">
+                                      <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Nick Name"  type="text" formControlName="nick_name" #nick_name>
+                                      </mat-form-field>
+                                      </div>
+                                  </div>                  
+                            
+                                <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!--            -->
+    <div class="card-body">
+      <form [formGroup]="bookForm" (ngSubmit)="form()" #formone="ngForm">
+      <mat-horizontal-stepper formArrayName="formArray" linear #stepper>
+        <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
+          <!-- <form [formGroup]="firstFormGroup" (ngSubmit)="form1()" #formone="ngForm"> -->
+            <ng-template matStepLabel>Book Details</ng-template>
+            <div class="row">                        
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Book Title" type="text" formControlName="book_name" #book_name>
+                        </mat-form-field>
+                    </div>
+                    <!--  -->
+                    <mat-form-field class="example-chip-list">
+                        <mat-chip-list #chipList aria-label="Fruit selection">
+                          <mat-chip
+                            *ngFor="let fruit  of fruits"
+                            [selectable]="selectable"
+                            [removable]="removable"
+                            (removed)="remove(author)">
+                            {{fruit}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="New fruit..."
+                            #fruitInput
+                            [formControl]="fruitCtrl"
+                            [matAutocomplete]="auto1"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn">
+                          <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                            {{fruit.author_name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    <!--  -->
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width">
+                         
+                          <input matInput placeholder="Author Name" type="text"  formControlName="author_name" #author_name [matAutocomplete]="book_author">
+                          <button mat-icon-button matSuffix data-toggle="modal" data-target="#authormodel" type="button"><mat-icon mat-icon-button matSuffix >person_add</mat-icon></button>
+                          <mat-autocomplete #book_author="matAutocomplete" [displayWith]="displayFn">
+                      
+                              <mat-option *ngFor="let author of filteredOptions | async"  [value]="author">{{author.author_name}}
+                              </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    
+            </div>
+            <div class="row">  
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="book_subtitle" type="text" formControlName="book_subtitle" #book_subtitle>
+                    </mat-form-field>
+                  </div> 
+                    <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Category" type="text" formControlName="book_category" #book_category>
+                            </mat-form-field>
+                          </div>                     
+                    <div class="col-md-2">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Price" type="number" formControlName="book_price" #book_price>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Rack No"  formControlName="rack_no" #rack_no>
+                        </mat-form-field>
+                    </div>
+                
+                </div>
+            <div>
+                   <mat-chip-list class="pull-right">
+                            <mat-chip color="primary" selected (click)="stepper.next()" >Next</mat-chip>
+                        </mat-chip-list>
+                            
+              <!-- <button mat-raised-button matStepperNext class="btn btn-primary pull-right">Next</button> -->
+            </div>
+          <!-- </form> -->
+        </mat-step>
+        <mat-step formGroupName="1" [stepControl]="formArray.get([1])" [optional]=true>
+          <!-- <form [formGroup]="secondFormGroup" (ngSubmit)="form2()" #formtwo="ngForm"> -->
+            <ng-template matStepLabel>Fill out your address</ng-template>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Book Call Number" formControlName="book_call_no" #book_call_no>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Book DDC" formControlName="book_ddc" #book_ddc [matAutocomplete]="ddc">
+                      <mat-autocomplete #ddc="matAutocomplete" [displayWith]="disDdc">
+                      
+                        <mat-option *ngFor="let ddc of filteredDdc | async"  [value]="ddc">{{ddc.title}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Book Sub DDC" formControlName="sub_ddc" #sub_ddc>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="ISBN Number" formControlName="book_isbn" #book_isbn>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Bill Number" formControlName="bill_number" #bill_number>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Bill Date" type="date" formControlName="book_bill_date" #book_bill_date>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Book Subject" formControlName="book_subject" #book_subject [matAutocomplete]="subject">
+                            <mat-autocomplete #subject="matAutocomplete" [displayWith]="disSubject">
+                                <mat-option *ngFor="let subject of filteredSubjects | async" [value]="subject">
+                                  {{subject.book_subject}}
+                                </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Book Language" formControlName="book_language" #book_language>
+                          </mat-form-field>
+                    </div>
+                </div>
+            <div>
+                    <mat-chip-list class="pull-right">
+                            <mat-chip color="accent" selected (click)="stepper.previous()" >Back</mat-chip>
+                            <mat-chip color="primary" selected (click)="stepper.next()" >Next</mat-chip>
+                        </mat-chip-list>
+              <!-- <button mat-raised-button  class="btn btn-primary pull-right" matStepperPrevious>Back</button>
+              <button mat-raised-button  class="btn btn-primary pull-right" matStepperNext>Next</button> -->
+            </div>
+          <!-- </form> -->
+        </mat-step>
+        <mat-step formGroupName="2" [stepControl]="formArray.get([2])" [optional]=true>
+            <!-- <form [formGroup]="thirdFormGroup" (ngSubmit)="form3()" #formthree="ngForm"> -->
+                    <ng-template matStepLabel>Fill out your address</ng-template>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Book Edition" type="text" formControlName="book_edition" #book_edition>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Book Publication Date" type="date" formControlName="book_pub_date" #book_pub_date>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Year" type="number" formControlName="book_year" #book_year >
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Book Spplier" type="text" formControlName="supplier" #supplier >
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-2">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Book Volume" type="text" formControlName="book_volume" #book_volume >
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-3">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Book Imprint" type="text" formControlName="book_imprint" #book_imprint>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-2">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pages" type="number" formControlName="book_pages" #book_pages>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-2">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Book Series" type="text" formControlName="series" #series>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-3">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Book Fund" type="text" formControlName="book_fund" #book_fund >
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Remarks" type="text" formControlName="book_remarks" #book_remarks>
+                              </mat-form-field>
+                          </div>
+                        </div>
+                
+               <div>
+                    <mat-chip-list class="pull-right">
+                            <mat-chip color="accent" selected (click)="stepper.previous()" >Back</mat-chip>
+                            <mat-chip color="primary" selected (click)="stepper.next()" >Next</mat-chip>
+                        </mat-chip-list>
+                <!-- <button mat-raised-button  class="btn btn-primary pull-right" matStepperPrevious>Back</button>
+                <button mat-raised-button  class="btn btn-primary pull-right" matStepperNext>Next</button> -->
+               </div>
+
+            <!-- </form> -->
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          You are now done.. Click Submit to finish
+          <div>
+                <mat-chip-list class="pull-right">
+                        <mat-chip color="accent" selected (click)="stepper.previous()" >Back</mat-chip>
+                        <mat-chip color="warn" selected (click)="stepper.reset()" >Reset</mat-chip>
+                        <mat-chip color="primary" selected (click)="formone.ngSubmit.emit();" >Submit</mat-chip>
+                    </mat-chip-list>
+                    
+            <!-- <button mat-raised-button  class="btn btn-primary pull-right" matStepperPrevious>Back</button>
+            <button mat-raised-button  class="btn btn-primary pull-right" (click)="stepper.reset()">Reset</button> -->
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+      </form>
+      </div>
+    </div>
+</div>
+    
+    
+    </div>
+</div>
+
+

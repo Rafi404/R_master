@@ -1,0 +1,11 @@
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+    margin-top: 16px;
+  }
+  .mat-form-field ~ .mat-form-field{
+    justify-content: center;
+    align-items: center;
+  }
+  .bgRed{
+    background-color: rgb(186, 250, 181);
+  }
