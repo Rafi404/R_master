@@ -56,6 +56,7 @@ import { StockSubComponent } from 'app/stock-sub/stock-sub.component';
 import { SupplierComponent } from 'app/supplier/supplier.component';
 import { IssueAppComponent } from 'app/issue-app/issue-app.component';
 import { BreakageComponent } from 'app/breakage/breakage.component';
+import { UsageReportComponent } from 'app/usage-report/usage-report.component';
 
 
 @NgModule({
@@ -120,6 +121,7 @@ import { BreakageComponent } from 'app/breakage/breakage.component';
     SupplierComponent,
     IssueAppComponent,
     BreakageComponent,
+    UsageReportComponent,
     
    
   ]

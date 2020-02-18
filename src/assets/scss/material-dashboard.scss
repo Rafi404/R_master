@@ -58,6 +58,6 @@
 
 @import "core/angular-modal.scss";
 
-.cdk-global-overlay-wrapper,.cdk-global-overlay-container{
-    z-index: 99999 !important;
+.cdk-global-overlay-wrapper, .cdk-global-overlay-container{
+    z-index: 999999 !important;
 }

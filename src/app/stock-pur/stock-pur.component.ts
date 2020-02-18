@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatTableDataSource, MatSort } from '@angular/material';
 
+
 export interface cur {
   value: string;
   viewValue: string;
@@ -20,7 +21,8 @@ export interface PeriodicElement {
   qty: number;
   unit: string;
   invo: string;
-  gid: string;
+  // gid: string;
+  supplier: string;
 }
 export interface type {
   value: string;
@@ -29,10 +31,10 @@ export interface type {
 
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { no: 1, item: 'Hydrogen', price: 1150, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', gid: 'FSF234' },
-  { no: 2, item: 'HCL', price: 1200, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', gid: 'FSF234' },
-  { no: 3, item: 'Nitrogen gas', price: 2050, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', gid: 'FSF234' },
-  { no: 4, item: 'Litmus', price: 150, currency: 'INR', qty: 5, unit: 'number', invo: 'AS345', gid: 'FSF234' },
+  { no: 1, item: 'Hydrogen', price: 1150, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', supplier: 'FSF234' },
+  { no: 2, item: 'HCL', price: 1200, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', supplier: 'FSF234' },
+  { no: 3, item: 'Nitrogen gas', price: 2050, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', supplier: 'FSF234' },
+  { no: 4, item: 'Litmus', price: 150, currency: 'INR', qty: 5, unit: 'number', invo: 'AS345', supplier: 'FSF234' },
 ];
 
 @Component({
@@ -52,7 +54,7 @@ export class StockPurComponent implements OnInit {
 
   pur_add: FormGroup;
 
-  // dataSource = ELEMENT_DATA;
+
 
   curs: cur[] = [
     { value: '0', viewValue: 'INR' },
@@ -68,10 +70,9 @@ export class StockPurComponent implements OnInit {
   ];
 
   constructor(private formBuilder: FormBuilder) { }
-  displayedColumns: string[] = ['no', 'item', 'price', 'currency', 'qty', 'unit', 'invo', 'gid'];
+  displayedColumns: string[] = ['no', 'item', 'price', 'currency', 'qty', 'unit', 'invo', 'supplier'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
@@ -105,7 +106,8 @@ export class StockPurComponent implements OnInit {
       qty: [],
       unit: [],
       invoice: [],
-      grant_id: [],
+      // grant_id: [],
+      supplier: [],
     });
 
     

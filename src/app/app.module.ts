@@ -44,6 +44,7 @@ import { StockSubComponent } from './stock-sub/stock-sub.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { IssueAppComponent } from './issue-app/issue-app.component';
 import { BreakageComponent } from './breakage/breakage.component';
+import { UsageReportComponent } from './usage-report/usage-report.component';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -67,6 +68,7 @@ import { BreakageComponent } from './breakage/breakage.component';
     AppComponent,
     AdminLayoutComponent,
     AuthComponent,
+    
     
     
     

@@ -5,7 +5,7 @@
 
         <mat-tab label="Stock View"> 
           
-          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z10">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
             <!-- Position Column -->
             <ng-container matColumnDef="no">
@@ -47,9 +47,14 @@
               <td mat-cell *matCellDef="let element"> {{element.invo}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="gid">
+            <!-- <ng-container matColumnDef="gid">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Grant-id </th>
               <td mat-cell *matCellDef="let element"> {{element.gid}} </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="supplier">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier </th>
+              <td mat-cell *matCellDef="let element"> {{element.supplier}} </td>
             </ng-container>
           
             <tr mat-header-row class='head_color' *matHeaderRowDef="displayedColumns"></tr>
@@ -88,7 +93,8 @@
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Unit</th>
                                 <th scope="col">Invoice Number</th>
-                                <th scope="col">Grant-id</th>
+                                <!-- <th scope="col">Grant-id</th> -->
+                                <th scope="col">Supplier</th>
                               </tr>
                             </thead>
                             <tbody formArrayName="stock">
@@ -135,9 +141,14 @@
                                 </td>
                                 <td>
                                   <mat-form-field class="example">
-                                    <input matInput value="" formControlName="grant_id" #grant_id>
+                                    <input matInput value="" formControlName="supplier" #supplier>
                                   </mat-form-field>
                                 </td>
+                                <!-- <td>
+                                  <mat-form-field class="example">
+                                    <input matInput value="" formControlName="grant_id" #grant_id>
+                                  </mat-form-field>
+                                </td> -->
                                 <td>
                                   <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon"
                                   (click)="onAddStock()">
@@ -261,7 +272,7 @@
               <div class="col-md-10">
                 <mat-form-field>
                   <mat-label>Select Type</mat-label>
-                  <mat-select formControlName="type"  #type tabindex="-2">
+                  <mat-select formControlName="type"  #type>
                     <mat-option  *ngFor="let type of types" [value]="type.value">
                       {{type.viewValue}}
                     </mat-option>

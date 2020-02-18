@@ -22,6 +22,7 @@ import { StockSubComponent } from 'app/stock-sub/stock-sub.component';
 import { SupplierComponent } from 'app/supplier/supplier.component';
 import { IssueAppComponent } from 'app/issue-app/issue-app.component';
 import { BreakageComponent } from 'app/breakage/breakage.component';
+import { UsageReportComponent } from 'app/usage-report/usage-report.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -87,5 +88,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'supplier', component: SupplierComponent},
     { path: 'issue-app', component: IssueAppComponent},
     { path: 'breakage', component: BreakageComponent},
+    { path: 'usage-report', component: UsageReportComponent},
+
     
 ];

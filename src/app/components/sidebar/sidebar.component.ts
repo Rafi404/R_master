@@ -19,6 +19,7 @@ export const ROUTES: RouteInfo[] = [
     {path: '/stock-pur', title: 'Stock Purchase', icon:'archive', class:''},
     {path: '/stock-sub', title: 'Subsidiary Stock', icon:'archive', class:''},
     {path: '/supplier', title: 'Supplier', icon:'person', class:''},
+    {path: '/usage-report', title: 'Usage Report', icon:'description', class:''},
     {path: '/issue-app', title: 'Issue Apparatus', icon:'repeate', class:''},
     {path: '/breakage', title: 'Breakage', icon:'texture', class:''},
     // { path: '/userProfile', title: 'user Profile',  icon: 'post_add', class: '' },
