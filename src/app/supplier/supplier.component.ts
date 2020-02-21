@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { SupplierAddService } from '../supplier_add.service';  
+import { subscribeOn } from 'rxjs/operators';
+import { error } from 'protractor';
+
 
 export interface PeriodicElement {
   no: number;
@@ -40,7 +45,7 @@ export class SupplierComponent implements OnInit {
 
   sup_add:FormGroup
 
-  constructor(private form_builder:FormBuilder) { }
+  constructor(private form_builder:FormBuilder, private _supplier_addService:SupplierAddService) { }
 
   ngOnInit() {
 
@@ -60,8 +65,15 @@ export class SupplierComponent implements OnInit {
   }
 
   OnSubmitsup(){
+
     console.log(this.sup_add.value);
-    console
+    this._supplier_addService.register(this.sup_add.value).subscribe(res=>{
+      console.log(res);
+      
+
+    })
+   
+    
   }
 
 }

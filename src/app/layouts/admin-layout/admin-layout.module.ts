@@ -36,6 +36,7 @@ import {
   DateAdapter,
   MatNativeDateModule,
   MatTabsModule,
+  MatCheckboxModule,
 } from '@angular/material';
 import { TokenInterceptor } from 'app/auth/token.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -86,6 +87,7 @@ import { UsageReportComponent } from 'app/usage-report/usage-report.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTabsModule,
+    MatCheckboxModule
   ],
   providers: [
     AuthserviceService,

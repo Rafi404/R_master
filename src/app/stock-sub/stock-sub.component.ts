@@ -10,6 +10,7 @@ export interface unit {
 }
 export interface PeriodicElement {
   no: number;
+  batch:string;
   item: string;
   qty_left: number;
   unit: string;
@@ -19,11 +20,12 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {no: 1, item: 'Hydrogen', qty_left: 1, unit: 'li', store_name: 'Store 1', location:'rack3'},
-  {no: 2, item: 'Test Tube', qty_left: 35, unit: 'No.s', store_name: 'Store 2', location:'rack2'},
-  {no: 3, item: 'Beecker', qty_left: 15, unit: 'li', store_name: 'Store 1', location:'rack6'},
-  {no: 4, item: 'buret', qty_left: 20, unit: 'li', store_name: 'Store 1', location:'rack6'},
-  {no: 5, item: 'Pippet', qty_left: 20, unit: 'li', store_name: 'Store 1', location:'rack3'},
+  {no: 1, batch: 'Test tube/100', item: 'Test tube', qty_left: 1, unit: 'li', store_name: 'Store 1', location:'rack3'},
+  {no: 2, batch: 'Test tube/150',  item: 'Test Tube', qty_left: 35, unit: 'No.s', store_name: 'Store 2', location:'rack2'},
+  {no: 3, batch: 'Beecker/800',  item: 'Beecker', qty_left: 15, unit: 'li', store_name: 'Store 1', location:'rack6'},
+  {no: 4, batch: 'Beecker/1100',  item: 'Beecker', qty_left: 20, unit: 'li', store_name: 'Store 1', location:'rack6'},
+  {no: 5, batch: 'HCL/1200',  item: 'HCL', qty_left: 5, unit: 'bottle', store_name: 'Store 1', location:'rack3'},
+  {no: 6, batch: 'HCL/2050',  item: 'HCL', qty_left: 5, unit: 'bottle', store_name: 'Store 1', location:'rack3'},
  
 ];
 
@@ -46,7 +48,7 @@ export class StockSubComponent implements OnInit {
     {value: '1', viewValue: 'g'},
     {value: '2', viewValue: 'litter'}
   ];
-  displayedColumns: string[] = ['no', 'item', 'qty_left', 'unit', 'store_name', 'location'];
+  displayedColumns: string[] = ['no', 'batch', 'item', 'qty_left', 'unit', 'store_name', 'location'];
   dataSource = ELEMENT_DATA;
   
 

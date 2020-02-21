@@ -28,7 +28,7 @@ export class ItemComponent implements OnInit {
       use: ['',Validators.required],
       spec: ['',Validators.required],
       type: ['',Validators.required],
-      qty: ['',Validators.required], 
+      unit: ['',Validators.required], 
 
 
     })

@@ -12,6 +12,12 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header> No </th>
               <td mat-cell *matCellDef="let element"> {{element.no}} </td>
             </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="batch">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch </th>
+              <td mat-cell *matCellDef="let element"> {{element.batch}} </td>
+            </ng-container>
           
             <!-- Name Column -->
             <ng-container matColumnDef="item">
@@ -65,7 +71,7 @@
               <div class="col-md-12">
 
                 <div class="card">
-                  <div class="card-header card-header-primary">
+                  <div class="card-header card-header">
                     <div class="row">
                       <div class="col-md-6">
                         <h4 class="card-title">Add Stock</h4>
@@ -84,7 +90,7 @@
           
                       <div class="row">
                         <div class="table-responsive">
-                          <table class="table table">
+                          <table class="table table1">
                             <thead>
                               <tr>
                                 <th scope="col">Item</th>
@@ -93,17 +99,21 @@
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Unit</th>
                                 <th scope="col">Invoice Number</th>
+                      
+                                
                                 <!-- <th scope="col">Grant-id</th> -->
                                 <th scope="col">Supplier</th>
+                                <th scope="col"></th>
+                                
                               </tr>
                             </thead>
                             <tbody formArrayName="stock">
                               <tr *ngFor="let one of s.controls; index as i" [formGroupName]="i">
-                                <th scope="row">
+                                <td scope="row">
                                   <mat-form-field class="example">
                                     <input matInput value="" formControlName="item" #item>
                                   </mat-form-field>
-                                </th>
+                                </td>
                                 <td>
                                   <mat-form-field class="example">
                                     <input matInput value="" formControlName="price" #price>
@@ -154,9 +164,7 @@
                                   (click)="onAddStock()">
                                   <mat-icon>add</mat-icon>
                                 </button>
-                                </td>
-          
-                                <td>
+                                
                                   <button mat-icon-button color="accent"  *ngIf="i!=0"
                                   (click)="onRemoveRow(i)">
                                   <mat-icon>delete</mat-icon>
@@ -240,6 +248,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
+
       <!-- Modal Body -->
       <div class="modal-body">
         <form [formGroup]="item_add" (ngSubmit)="onSubmitItem()">
@@ -284,17 +294,18 @@
             <div class="row justify-content-center">
               <div class="col-md-10">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Mesuaring Unit" formControlName="qty">
+                  <input matInput placeholder="Mesuaring Unit" formControlName="unit">
                 </mat-form-field>
               </div>
             </div>
-          
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" type="submit">ADD</button>
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" type="submit">Save changes</button>
-      </div>
+      
     </div>
   </div>
 </div>

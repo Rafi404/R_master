@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-export interface type {
-  value: string;
-  viewValue: string;
-}
 export interface replace {
   value: string;
   viewValue: string;
@@ -19,6 +15,10 @@ export interface rcvb {
   value: string;
   viewValue: string;
 }
+export interface type {
+  value: string;
+  viewValue: string;
+}
 
 
 
@@ -29,11 +29,6 @@ export interface rcvb {
   styleUrls: ['./breakage.component.scss']
 })
 export class BreakageComponent implements OnInit {
-  types: type[] = [
-    {value: '0', viewValue: 'Commmon'},
-    {value: '1', viewValue: 'Individual'},
-  ];
-
   replaced: replace[] = [
     {value: '0', viewValue: 'Yes'},
     {value: '1', viewValue: 'No'},
@@ -53,9 +48,13 @@ export class BreakageComponent implements OnInit {
     {value: '0', viewValue: 'Faculty 1'},
     {value: '1', viewValue: 'Faculty 2'},
   ];
+
+ types: type[] = [
+    {value: '0', viewValue: 'Individual'},
+    {value: '1', viewValue: 'Common'},
+  ];
+
  
-
-
   constructor() { }
 
   ngOnInit() {
