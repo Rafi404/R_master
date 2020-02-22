@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { SupplierAddService } from '../supplier_add.service';  
 import { subscribeOn } from 'rxjs/operators';
 import { error } from 'protractor';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 export interface PeriodicElement {
   no: number;
@@ -69,6 +69,7 @@ export class SupplierComponent implements OnInit {
     console.log(this.sup_add.value);
     this._supplier_addService.register(this.sup_add.value).subscribe(res=>{
       console.log(res);
+      
       
 
     })

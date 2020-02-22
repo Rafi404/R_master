@@ -19,7 +19,7 @@ export interface PeriodicElement {
   batch:string;
   item: string;
   price: number;
-  currency: string;
+  // currency: string;
   qty: number;
   unit: string;
   invo: string;
@@ -33,10 +33,10 @@ export interface type {
 
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { no: 1, batch: 'Hydrogen/1500', item: 'Hydrogen', price: 1150, currency: 'INR', qty: 5, unit: 'ml', invo: 'AS345', supplier: 'FSF234' },
-  { no: 2, batch: 'HCL/1200', item: 'HCL', price: 1200, currency: 'INR', qty: 10, unit: 'bottle', invo: 'AS345', supplier: 'FSF234' },
-  { no: 3, batch: 'HCL/2050', item: '', price: 2050, currency: 'INR', qty: 10, unit: 'bottle', invo: 'AS345', supplier: 'FSF234' },
-  { no: 4, batch: 'Nacl/1100', item: 'Nacl', price: 150, currency: 'INR', qty: 5, unit: 'number', invo: 'AS345', supplier: 'FSF234' },
+  { no: 1, batch: 'Hydrogen/1500', item: 'Hydrogen', price: 1150, qty: 5, unit: 'ml', invo: 'AS345', supplier: 'FSF234' },
+  { no: 2, batch: 'HCL/1200', item: 'HCL', price: 1200, qty: 10, unit: 'bottle', invo: 'AS345', supplier: 'FSF234' },
+  { no: 3, batch: 'HCL/2050', item: 'HCL', price: 2050, qty: 10, unit: 'bottle', invo: 'AS345', supplier: 'FSF234' },
+  { no: 4, batch: 'Nacl/1100', item: 'Nacl', price: 150, qty: 5, unit: 'number', invo: 'AS345', supplier: 'FSF234' },
 ];
 
 @Component({
@@ -68,9 +68,11 @@ export class StockPurComponent implements OnInit {
     { value: '2', viewValue: 'l' },
     { value: '2', viewValue: 'g' },
   ];
+  supplier_edit: FormGroup;
+  stock_edit: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private _item_addService:ItemAddService) { }
-  displayedColumns: string[] = ['no', 'batch', 'item', 'price', 'currency', 'qty', 'unit', 'invo', 'supplier'];
+  displayedColumns: string[] = ['no', 'batch', 'item', 'price', 'qty', 'unit', 'invo', 'supplier', 'edit'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -85,8 +87,33 @@ export class StockPurComponent implements OnInit {
       type: ['',Validators.required],
       unit: ['',Validators.required], 
     })
+
+    this.stock_edit=this.formBuilder.group({
+      edit_batch: ['',Validators.required],
+      edit_item: ['',Validators.required],
+      edit_price: ['',Validators.required],
+      edit_qty: ['',Validators.required],
+      edit_unit: ['',Validators.required], 
+      edit_invoice: ['',Validators.required],
+      edit_supplier: ['',Validators.required],
+    })
+
     this.pur_add = this.formBuilder.group({
       stock: this.formBuilder.array([this.createNewItem()]),
+    })
+  }
+  onOpenModal(element) {
+    console.log(element);
+    this.stock_edit.patchValue({
+      edit_batch: element.batch,
+      edit_item: element.item,
+      edit_price: element.price,
+      edit_qty: element.qty,
+      edit_unit: element.unit,
+      edit_invoice: element.invo,
+      edit_supplier: element.supplier,
+      
+      
     })
   }
   get s() {
