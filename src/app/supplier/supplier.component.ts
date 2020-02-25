@@ -37,13 +37,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SupplierComponent implements OnInit {
 
-  displayedColumns: string[] = ['no', 'sup_name', 'sup_company', 'mobile', 'email', 'add1', 'add2', 'city', 'state', 'po'];
+  displayedColumns: string[] = ['no', 'sup_name', 'sup_company', 'mobile', 'email', 'add1', 'add2', 'city', 'state', 'po','edit'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 
-  sup_add:FormGroup
+  sup_add:FormGroup;
+  supplier_edit:FormGroup;
 
   constructor(private form_builder:FormBuilder, private _supplier_addService:SupplierAddService) { }
 
@@ -61,6 +62,33 @@ export class SupplierComponent implements OnInit {
       supcty:["",Validators.required],
       supstate:["",Validators.required],
       suppo:["",Validators.required],
+    })
+
+    this.supplier_edit=this.form_builder.group({
+      edit_suppliername:["",Validators.required],
+      edit_company:["",Validators.required],
+      edit_Mobile:["",Validators.required],
+      edit_mail:["",Validators.required],
+      edit_add1:["",Validators.required],
+      edit_add2:["",Validators.required],
+      edit_cty:["",Validators.required],
+      edit_state:["",Validators.required],
+      edit_po:["",Validators.required],
+    })
+  }
+
+  onOpenModal(element) {
+    console.log(element);
+    this.supplier_edit.patchValue({
+      edit_suppliername: element.sup_name,
+      edit_company: element.sup_company,
+      edit_Mobile: element.mobile,
+      edit_mail: element.email,
+      edit_add1: element.add1,
+      edit_add2: element.add2,
+      edit_cty: element.city,
+      edit_state: element.state,
+      edit_po: element.po,
     })
   }
 

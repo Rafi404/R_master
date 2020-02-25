@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
 export interface itemid {
   value: string;
   viewValue: string;
@@ -48,14 +49,16 @@ export class StockSubComponent implements OnInit {
     {value: '1', viewValue: 'g'},
     {value: '2', viewValue: 'litter'}
   ];
-  displayedColumns: string[] = ['no', 'batch', 'item', 'qty_left', 'unit', 'store_name', 'location'];
-  dataSource = ELEMENT_DATA;
-  
+  displayedColumns: string[] = ['no', 'batch', 'item', 'qty_left', 'unit',];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private form_Builder:FormBuilder) {
-    
-   }
+  // filtering
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();  
+  }
 
+  constructor(private form_Builder:FormBuilder) {}
   ngOnInit() {
 
     this.stk_sub=this.form_Builder.group({

@@ -75,6 +75,11 @@ export class StockPurComponent implements OnInit {
   displayedColumns: string[] = ['no', 'batch', 'item', 'price', 'qty', 'unit', 'invo', 'supplier', 'edit'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    
+  }
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
@@ -112,8 +117,6 @@ export class StockPurComponent implements OnInit {
       edit_unit: element.unit,
       edit_invoice: element.invo,
       edit_supplier: element.supplier,
-      
-      
     })
   }
   get s() {

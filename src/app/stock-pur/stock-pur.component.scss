@@ -13,11 +13,11 @@
 //   .head_color{
 //     background-color:#f44336 ;
 //   }
-//   .table1{
-//     table-layout: fixed;
-//     width: 100%;
-//     border-spacing: 15px;
-//   }
+  .table1{
+    table-layout: fixed;
+    width: 100%;
+    border-spacing: 15px;
+  }
 //   .table1 tr{
 //     padding: 14px;
 //   }
@@ -28,7 +28,6 @@ table {
   margin: 0;
   padding: 0;
   width: 100%;
-  table-layout: fixed;
 }
 
 table caption {
@@ -44,8 +43,9 @@ table tr {
 
 table th,
 table td {
-  padding: .625em;
+  padding: -0.375em;
   text-align: left;
+  font-weight: bolder;
 }
 
 table th {
@@ -80,13 +80,13 @@ table th {
   
   table tr {
     border-bottom: 3px solid #ddd;
-    display: block;
+    // display: block;
     margin-bottom: .625em;
   }
   
   table td {
     border-bottom: 1px solid #ddd;
-    display: block;
+    // display: block;
     font-size: .8em;
     text-align: right;
   }
@@ -105,4 +105,7 @@ table th {
   table td:last-child {
     border-bottom: 0;
   }
+}
+.main-content{
+  padding: 0px;
 }
