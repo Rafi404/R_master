@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { ItemAddService } from 'app/item_add.service';
+import { StockAddService } from 'app/services/stock-add.service';
 
 
 export interface cur {
@@ -71,7 +72,7 @@ export class StockPurComponent implements OnInit {
   supplier_edit: FormGroup;
   stock_edit: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private _item_addService:ItemAddService) { }
+  constructor(private formBuilder: FormBuilder, private _item_addService:ItemAddService, private _stock_addService:StockAddService) { }
   displayedColumns: string[] = ['no', 'batch', 'item', 'price', 'qty', 'unit', 'invo', 'supplier', 'edit'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -145,15 +146,18 @@ export class StockPurComponent implements OnInit {
   }
   onSubmitPur() {
     console.log(this.pur_add.value);
+    this._stock_addService.registerStock(this.pur_add.value).subscribe(res=>{
+      console.log(res);
+    })
+
   }
 
   onSubmitItem() {
     console.log(this.item_add.value);
     this._item_addService.register(this.item_add.value).subscribe(res=>{
       console.log(res);
-
     })
-    
   }
-
 }
+
+
