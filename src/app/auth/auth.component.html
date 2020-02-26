@@ -1,49 +1,106 @@
-<div class="main-content ">
+<div class="main-content image">
   <div class="container main-div">
-      <!-- <button class="btn btn-primary" onclick="showNotification('top','right')">Top Right Notification</button> -->
-     <div class="col-md-6">
-      <div class="card" >
-          <div class="card-header card-header-icon card-header-rose">
-            <div class="card-icon">
-              <i class="material-icons">lock</i>
-            </div>
-            <h4 class="card-title">Login</h4>
+    <!-- <button class="btn btn-primary" onclick="showNotification('top','right')">Top Right Notification</button> -->
+    <div class="col-md-6" [hidden]="forget">
+      <div class="card">
+        <div class="row card-header card-header-icon justify-content-center">
+          <div class="card-icon card-header-logo">
+            <!-- <i class="material-icons">lock</i> -->
+            <img src="{{url}}/SupportingFiles/img/{{folder}}/institution_logo.jpg" class="company-header-avatar" alt="Logo"> 
+            <!-- <img style="background-image: url(https://cmc.embase.in/SupportingFiles/img/cmc/institution_logo.jpg)"
+              class="company-header-avatar"> -->
           </div>
-          <div class="card-body">
-            <form [formGroup]="loginform" (ngSubmit)="onSubmit()">
+          <h3 class="card-title text-center">{{institution_name}}</h3>
+
+        </div>
+
+
+        <div class="card-body">
+
+          <form [formGroup]="loginform" (ngSubmit)="onSubmit()">
             <div class="row form-div">
               <div class="col-md-10 ">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="User ID" formControlName="userid" #userid autocomplete="off">
-                                  </mat-form-field> 
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="User Id" formControlName="userid" #userid autocomplete="off">
+                </mat-form-field>
               </div>
               <div class="col-md-10">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Email_address"  type="email" formControlName="email"
-                                    #email autocomplete="off">
-                              
-                                  </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Username" formControlName="email" #email autocomplete="off">
+
+                </mat-form-field>
               </div>
               <div class="col-md-10">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Password" type="password" formControlName="password" 
-                                    #Password>
-                                  </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" formControlName="password" #Password>
+                  <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+                <!-- <mat-form-field class="example-full-width">
+                  <input matInput showHideInput placeholder="Password" id="mysecretpassword" type="password"
+                    formControlName="password" #Password>
+                  <button mat-icon-button matSuffix type="button">
+                    <mat-icon mat-icon-button matSuffix showHideTrigger="mysecretpassword"
+                      [showHideStatus]="{ materialIcon: true, id: 'mysecretpassword' }"></mat-icon>
+                  </button>
+                </mat-form-field> -->
               </div>
-             </div>
-                              <div class="row">
-                                <div class="col text-center">
-                              <button mat-raised-button type="submit" class="btn btn-primary" >
-                              Login</button>
-                              <a href="#" class="link"> Forgot password..?</a>
-                            </div>
-                              </div>
-                              </form>
-                            
-          </div>
+            </div>
+            <div class="row">
+              <div class="col text-center">
+                <button mat-raised-button type="submit" class="btn btn-primary" [disabled]="submitted">
+                  Login</button>
+                <a class="link" href="javascript:void(0)" (click)="forget=!forget"> Forgot password..?</a>
+              </div>
+              <mat-progress-bar *ngIf="submitted" mode="indeterminate"></mat-progress-bar>
+            </div>
+          </form>
+
+        </div>
       </div>
-  </div> 
+    </div>
+    <!--  -->
+    <div class="col-md-6" [hidden]="!forget">
+      <div class="card">
+        <div class="card-header card-header-icon card-header-rose">
+          <div class="card-icon">
+            <i class="material-icons">lock</i>
+          </div>
+          <h4 class="card-title">Reset Password</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="resetform" (ngSubmit)="onResetRequest()">
+            <div class="row form-div">
+
+              <div class="col-md-10">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Enter User Id" formControlName="user_id" #email>
+                </mat-form-field>
+              </div>
+              <div class="col-md-10">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Enter Registered Mobile Number" formControlName="mobile" #email>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col text-center">
+                <button mat-raised-button type="submit" class="btn btn-primary">
+
+                  Reset</button>
+                <a class="link" href="javascript:void(0)" (click)="forget=!forget"> Login instead..? </a>
+
+              </div>
+              <mat-progress-bar *ngIf="submitted" mode="indeterminate"></mat-progress-bar>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <!--  -->
+
   </div>
 </div>
-
-

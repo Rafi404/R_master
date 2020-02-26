@@ -23,28 +23,28 @@ export class DashboardComponent implements OnInit {
   constructor(private authservice: AuthserviceService, private libraryService: LibraryService) {
   }
   ngOnInit() {
-    this.authservice.getBooks().subscribe((data: any) => {
-      // if (!data.books) {
-      //   return;
-      // }
-      this.books = new MatTableDataSource(data.books);
-      this.books.sort = this.sort;
-      this.books.paginator = this.paginator;
-   });
-      this.libraryService.getStatistics().subscribe((result: any) => {
-        this.statistics = result.statistics;
-      });
-    }
-  showmodel(book) {
-    this.book = book;
-    this.libraryService.getHistory(book.id).subscribe((result: any) => {
-      this.bookhistory = result.history;
-      // console.log(result);
-    });
-  }
-  applyFilter(filterValue: string) {
-    this.books.filter = filterValue.trim().toLowerCase();
-   console.log(filterValue);
+  //   this.authservice.getBooks().subscribe((data: any) => {
+  //     // if (!data.books) {
+  //     //   return;
+  //     // }
+  //     this.books = new MatTableDataSource(data.books);
+  //     this.books.sort = this.sort;
+  //     this.books.paginator = this.paginator;
+  //  });
+  //     this.libraryService.getStatistics().subscribe((result: any) => {
+  //       this.statistics = result.statistics;
+  //     });
+  //   }
+  // showmodel(book) {
+  //   this.book = book;
+  //   this.libraryService.getHistory(book.id).subscribe((result: any) => {
+  //     this.bookhistory = result.history;
+  //     // console.log(result);
+  //   });
+  // }
+  // applyFilter(filterValue: string) {
+  //   this.books.filter = filterValue.trim().toLowerCase();
+  //  console.log(filterValue);
   }
 
 }

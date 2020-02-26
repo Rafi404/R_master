@@ -9,6 +9,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatAutocompleteModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 
@@ -28,6 +29,7 @@ import { AppComponent } from './app.component';
 import {
   AgmCoreModule
 } from '@agm/core';
+import { ToastrModule } from 'ngx-toastr';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RandomGuard } from './guards/random.guard';
@@ -47,6 +49,10 @@ import { BreakageComponent } from './breakage/breakage.component';
 import { UsageReportComponent } from './usage-report/usage-report.component';
 @NgModule({
   imports: [
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -60,6 +66,7 @@ import { UsageReportComponent } from './usage-report/usage-report.component';
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
+    MatProgressBarModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })

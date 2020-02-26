@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 // import { AuthComponent } from './auth.component';
 import { AuthserviceService } from './authservice.service';
 import { RandomGuard } from 'app/guards/random.guard';
-import { TokenInterceptor } from './token.interceptor';
 import { AuthGuard } from 'app/guards/auth.guard';
 
 
@@ -23,11 +22,11 @@ import { AuthGuard } from 'app/guards/auth.guard';
     AuthModule,
     RandomGuard,
     AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: TokenInterceptor,
+    //   multi: true
+    // }
   ],
 })
 export class AuthModule { }

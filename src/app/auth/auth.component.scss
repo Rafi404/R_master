@@ -8,3 +8,46 @@
     justify-content: center;
     align-items: center;
   }
+  .image{
+    height:auto; background-size:cover; width:auto;
+    // background-image:url('assets/img/bg-image.svg');
+    background-position:50% 50%;
+  }
+.mat-list-base .mat-list-item .mat-list-text>*, .mat-list-base .mat-list-option .mat-list-text>* {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-size: inherit; 
+}
+.mat-list-base .mat-list-item .mat-line {
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    box-sizing: border-box;
+}
+
+
+
+.card-header-logo{
+  background: linear-gradient(60deg, #50d7d3, #dc8beb);
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(88, 211, 212);
+}
+.card-title{
+  font-weight: 550;
+  color: #52595f
+}
+.company-header-avatar{
+  width: 60px;
+  height: 60px;
+  -webkit-border-radius: 60px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 60px;
+  -moz-background-clip: padding;
+  border-radius: 60px;
+  background-clip: padding-box;
+  margin: 7px 0 0 5px;
+  float: left;
+  background-size: cover;
+  background-position: center center;
+}

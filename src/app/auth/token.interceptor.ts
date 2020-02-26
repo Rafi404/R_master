@@ -4,6 +4,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
 import { AuthserviceService } from './authservice.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'app/services/message.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -11,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(public authService: AuthserviceService, private router: Router) { }
+  constructor(public authService: AuthserviceService, private router: Router, private message: MessageService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -19,12 +20,15 @@ export class TokenInterceptor implements HttpInterceptor {
       request = this.addToken(request, this.authService.getJwtToken());
     }
 
-    return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        this.router.navigate(['/auth']);
+    return next.handle(request).pipe(catchError(err => {
+      if (err instanceof HttpErrorResponse && err.status === 401) {
+        console.log(err.status);
+        // this.router.navigate(['/auth']);
+        return throwError('Unauthorized');
+        // this.message.showNotification('danger', 'Authentication Failed');
         // return this.handle401Error(request, next);
       } else {
-        return throwError(error);
+        return throwError(err);
       }
     }));
   }

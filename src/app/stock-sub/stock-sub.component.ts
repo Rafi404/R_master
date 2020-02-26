@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
+import { GetStockService } from 'app/services/get-stock.service';
 export interface itemid {
   value: string;
   viewValue: string;
@@ -58,7 +59,7 @@ export class StockSubComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();  
   }
 
-  constructor(private form_Builder:FormBuilder) {}
+  constructor(private form_Builder:FormBuilder, private service: GetStockService) {}
   ngOnInit() {
 
     this.stk_sub=this.form_Builder.group({
@@ -71,6 +72,12 @@ export class StockSubComponent implements OnInit {
       loc:['',Validators.required],
       
     })
+
+   this.service.getStock().subscribe((res: any) => {
+     console.log(res.data);
+   })
+
+
   }
 
   onSubmitItemsub(){

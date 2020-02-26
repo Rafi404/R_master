@@ -4,6 +4,11 @@
 
       <mat-tab-group>
         <mat-tab label="Supplier View"> 
+          <mat-form-field>
+            <mat-label>Search here...</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+          </mat-form-field>
+
        <div class="table-responsive">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z10">
 
