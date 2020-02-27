@@ -40,11 +40,10 @@ export class SupplierComponent implements OnInit {
   displayedColumns: string[] = ['no', 'sup_name', 'sup_company', 'mobile', 'email', 'add1', 'add2', 'city', 'state', 'po','edit'];
   
 
-  applyFilter(event: Event) {
+   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;

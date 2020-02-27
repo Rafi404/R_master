@@ -10,26 +10,25 @@ export interface unit {
   value: string;
   viewValue: string;
 }
-export interface PeriodicElement {
-  no: number;
+export interface StockData {
   batch:string;
   item: string;
-  qty_left: number;
+  qty: number;
   unit: string;
   store_name: string;
   location: string;
 
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {no: 1, batch: 'Test tube/100', item: 'Test tube', qty_left: 1, unit: 'li', store_name: 'Store 1', location:'rack3'},
-  {no: 2, batch: 'Test tube/150',  item: 'Test Tube', qty_left: 35, unit: 'No.s', store_name: 'Store 2', location:'rack2'},
-  {no: 3, batch: 'Beecker/800',  item: 'Beecker', qty_left: 15, unit: 'li', store_name: 'Store 1', location:'rack6'},
-  {no: 4, batch: 'Beecker/1100',  item: 'Beecker', qty_left: 20, unit: 'li', store_name: 'Store 1', location:'rack6'},
-  {no: 5, batch: 'HCL/1200',  item: 'HCL', qty_left: 5, unit: 'bottle', store_name: 'Store 1', location:'rack3'},
-  {no: 6, batch: 'HCL/2050',  item: 'HCL', qty_left: 5, unit: 'bottle', store_name: 'Store 1', location:'rack3'},
+// const ELEMENT_DATA: PeriodicElement[] = [
+//   {no: 1, batch: 'Test tube/100', item: 'Test tube', qty_left: 1, unit: 'li', store_name: 'Store 1', location:'rack3'},
+//   {no: 2, batch: 'Test tube/150',  item: 'Test Tube', qty_left: 35, unit: 'No.s', store_name: 'Store 2', location:'rack2'},
+//   {no: 3, batch: 'Beecker/800',  item: 'Beecker', qty_left: 15, unit: 'li', store_name: 'Store 1', location:'rack6'},
+//   {no: 4, batch: 'Beecker/1100',  item: 'Beecker', qty_left: 20, unit: 'li', store_name: 'Store 1', location:'rack6'},
+//   {no: 5, batch: 'HCL/1200',  item: 'HCL', qty_left: 5, unit: 'bottle', store_name: 'Store 1', location:'rack3'},
+//   {no: 6, batch: 'HCL/2050',  item: 'HCL', qty_left: 5, unit: 'bottle', store_name: 'Store 1', location:'rack3'},
  
-];
+// ];
 
 @Component({
   selector: 'app-stock-sub',
@@ -50,8 +49,8 @@ export class StockSubComponent implements OnInit {
     {value: '1', viewValue: 'g'},
     {value: '2', viewValue: 'litter'}
   ];
-  displayedColumns: string[] = ['no', 'batch', 'item', 'qty_left', 'unit',];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['no', 'batch', 'item', 'qty', 'unit',];
+  dataSource = new MatTableDataSource<StockData>();
 
   // filtering
   applyFilter(event: Event) {
@@ -75,6 +74,7 @@ export class StockSubComponent implements OnInit {
 
    this.service.getStock().subscribe((res: any) => {
      console.log(res.data);
+     this.dataSource=new MatTableDataSource(res.data);
    })
 
 
