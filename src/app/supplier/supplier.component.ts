@@ -31,7 +31,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-supplier',
+  selector: 'app-supplier',  
   templateUrl: './supplier.component.html',
   styleUrls: ['./supplier.component.scss']
 })
