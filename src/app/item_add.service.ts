@@ -10,6 +10,6 @@ export class ItemAddService {
   constructor(private _http:HttpClient) { }
 
   register(item_Data){
-    return this._http.post<any>(this._url + '/add_item',item_Data);
+    return this._http.post<any>(this._url + '/add-item',item_Data);
   }
 }

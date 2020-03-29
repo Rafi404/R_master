@@ -1,6 +1,5 @@
 table {
     width: 100%;
-    
   }
   .mat-header-cell{
     color: #fff;
@@ -8,12 +7,15 @@ table {
     font-size: 14px;
   }
   .head_color{
-    background-color:#a1c4fd ;
+    background-color:#3f51b5 ;
   }
-
   .issuebtn{
     margin-top: 25px;
   }
   .allocate{
     margin-bottom: 10px;
+  }
+
+  .card_body{
+    margin-top: -60px;
   }

@@ -17,7 +17,6 @@ export interface StockData {
   unit: string;
   store_name: string;
   location: string;
-
 }
 
 // const ELEMENT_DATA: PeriodicElement[] = [
@@ -69,7 +68,6 @@ export class StockSubComponent implements OnInit {
       unt:['',Validators.required],
       strnm:['',Validators.required],
       loc:['',Validators.required],
-      
     })
 
    this.service.getStock().subscribe((res: any) => {

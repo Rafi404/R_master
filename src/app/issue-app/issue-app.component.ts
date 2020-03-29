@@ -6,6 +6,10 @@ export interface batch {
   value: string;
   viewValue: string;
 }
+export interface item {
+  value: string;
+  viewValue: string;
+}
 
 export interface PeriodicElement {
   no: number;
@@ -39,6 +43,13 @@ export class IssueAppComponent implements OnInit {
     {value: '1', viewValue: 'BCA 2017-2020'},
     {value: '2', viewValue: 'MCA 2017-2020'}
   ];
+
+  items: item[] = [
+    {value: '0', viewValue: 'Test Tube'},
+    {value: '1', viewValue: 'Beacker'},
+    {value: '2', viewValue: 'Burette'}
+  ];
+
 
   issue_app: any;
 

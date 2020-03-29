@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { SupplierAddService } from '../supplier_add.service';  
+import { SupplierAddService } from '../services/supplier_add.service';  
 import { subscribeOn } from 'rxjs/operators';
 import { error } from 'protractor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { GetStockService } from 'app/services/get-stock.service';
 
-export interface PeriodicElement {
+export interface SupplierData {
   no: number;
   sup_name: string;
   sup_company: string;
@@ -20,15 +21,14 @@ export interface PeriodicElement {
   po:string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {no: 1, sup_name: 'Sajid', sup_company: 'EXADE', mobile: '8848096976', email: 'saji@gmail.com', add1:'dfvdgh', add2:'sdgdgfgfdfd', city:'Kalpetta', state:'Kerala', po:'6731452'},
-  {no: 2, sup_name: 'SAM', sup_company: 'MARK1', mobile: '4512874512', email: 'sam@gmail.com', add1:'dfvddfdgh', add2:'sdgddfgfdfd', city:'kannur', state:'Kerala', po:'6734522'},
-  {no: 3, sup_name: 'SHAHEER', sup_company: 'NEXA', mobile: '45454543333', email: 'shaheer@gmail.com', add1:'dfdfvdgh', add2:'sdgdgfgfdfd', city:'calicut', state:'Kerala', po:'6731245'},
-  {no: 4, sup_name: 'ATHIL', sup_company: 'ARCADE', mobile: '5556789976', email: 'athil@gmail.com', add1:'dfvdfdgh', add2:'sdgdgffgdfd', city:'eranakulam', state:'Kerala', po:'673127'},
-  {no: 5, sup_name: 'ARSALAN', sup_company: 'MATHDOT', mobile: '4456654655', email: 'arsalan@gmail.com', add1:'dfvdfggh', add2:'sfgdgdgfdfd', city:'calicut', state:'Kerala', po:'67312752'},
-  {no: 6, sup_name: 'FIROS', sup_company: 'EXADE', mobile: '5656456556', email: 'firos@gmail.com', add1:'dfdfsvdgh', add2:'sdgdgfgfdfd', city:'trissur', state:'Kerala', po:'6731422'},
-
-];
+// const ELEMENT_DATA: PeriodicElement[] = [
+//   {no: 1, sup_name: 'Sajid', sup_company: 'EXADE', mobile: '8848096976', email: 'saji@gmail.com', add1:'dfvdh', add2:'sdgdfd', city:'Kalpetta', state:'Kerala', po:'6731452'},
+//   {no: 2, sup_name: 'SAM', sup_company: 'MARK1', mobile: '4512874512', email: 'sam@gmail.com', add1:'dfvddgh', add2:'sdgddfdfd', city:'kannur', state:'Kerala', po:'6734522'},
+//   {no: 3, sup_name: 'SHAHEER', sup_company: 'NEXA', mobile: '45454543333', email: 'shaheer@gmail.com', add1:'dfdfvgh', add2:'sdgdgfd', city:'calicut', state:'Kerala', po:'6731245'},
+//   {no: 4, sup_name: 'ATHIL', sup_company: 'ARCADE', mobile: '5556789976', email: 'athil@gmail.com', add1:'dfvdfdgh', add2:'sdgdf', city:'eranakulam', state:'Kerala', po:'673127'},
+//   {no: 5, sup_name: 'ARSALAN', sup_company: 'MATHDOT', mobile: '4456654655', email: 'arsalan@gmail.com', add1:'dfvdfggh', add2:'sfgdgfdfd', city:'calicut', state:'Kerala', po:'67312752'},
+//   {no: 6, sup_name: 'FIROS', sup_company: 'EXADE', mobile: '5656456556', email: 'firos@gmail.com', add1:'dfdfsvdgh', add2:'sdgdgfd', city:'trissur', state:'Kerala', po:'6731422'},
+// ];
 
 @Component({
   selector: 'app-supplier',  
@@ -44,7 +44,7 @@ export class SupplierComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<SupplierData>();
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -69,7 +69,6 @@ export class SupplierComponent implements OnInit {
       supstate:["",Validators.required],
       suppo:["",Validators.required],
     })
-
     this.supplier_edit=this.form_builder.group({
       edit_suppliername:["",Validators.required],
       edit_company:["",Validators.required],
@@ -81,8 +80,11 @@ export class SupplierComponent implements OnInit {
       edit_state:["",Validators.required],
       edit_po:["",Validators.required],
     })
+      this._supplier_addService.getSupplier().subscribe((res:any)=>{
+        console.log(res.data);
+        this.dataSource=new MatTableDataSource(res.supplierdata);
+      })
   }
-
   onOpenModal(element) {
     console.log(element);
     this.supplier_edit.patchValue({
@@ -97,18 +99,14 @@ export class SupplierComponent implements OnInit {
       edit_po: element.po,
     })
   }
-
   OnSubmitsup(){
-
     console.log(this.sup_add.value);
     this._supplier_addService.register(this.sup_add.value).subscribe(res=>{
       console.log(res);
-      
-      
-
     })
-   
-    
   }
 
+  onEditSupplier(){
+    
+  }
 }

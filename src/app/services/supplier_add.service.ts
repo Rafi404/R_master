@@ -9,8 +9,13 @@ export class SupplierAddService {
   constructor(private _http: HttpClient) { }
 
   register(supplier_Data){
-
    return this._http.post<any>(this._url + '/add_supplier',supplier_Data);
 
   }
+
+  // Get supplier data from table
+  getSupplier(){
+    return this._http.get<any>(this._url+'/getSupplierdata')
+  }
+  
 }
