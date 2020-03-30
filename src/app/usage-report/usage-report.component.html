@@ -7,6 +7,7 @@
           <div class="card">
             <div class="card-body">
               <div class="row">
+            
                 <div class="col-md-3 mb-2">
                   <mat-form-field class="example-full-width">
                     <mat-label>Choose from date</mat-label>
@@ -24,15 +25,13 @@
                     <mat-datepicker #topicker></mat-datepicker>
                   </mat-form-field>
                 </div>
-
                 <div class="col-md-3 mt-2">
                 <button mat-mini-fab color="primary" (click)="onGetUsageReport(from_date,to_date)"><mat-icon>search</mat-icon></button>
                 </div>
-         
               </div>
               <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z10">
                 <ng-container matColumnDef="no">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Sl.No </th>
                   <td mat-cell *matCellDef="let element"> {{element.no}} </td>
                 </ng-container>
 
@@ -74,13 +73,14 @@
         <mat-tab label="Add Usage">
           <div class="card">
             <div class="card-body">
+             <form [formGroup]="Add_usage" (ngSubmit)="OnSubmitUsage()">             
               <div class="row justify-content-left">
-                <div class="col-md-4 item-select">
+                <div class="col-md-4 item-select">                  
                   <mat-form-field>
                     <mat-label>Select Item</mat-label>
-                    <mat-select>
-                      <mat-option *ngFor="let item of items" [value]="item.value">
-                        {{item.viewValue}}
+                    <mat-select formControlName="item" #item  (selectionChange)="onChangeItem($event.value)">
+                      <mat-option *ngFor="let item of items" [value]="item.id" >
+                        {{item.equipment_name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -88,20 +88,20 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <table class="table" mat-table [dataSource]="dataSource2" matSort>
+                  <table class="table" mat-table [dataSource]="ItemUsageSource" matSort>
                     <ng-container matColumnDef="no">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-                      <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Sl.No </th>
+                      <td mat-cell *matCellDef="let element index as i"> {{i+1}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="batch_in_add">
+                    <ng-container matColumnDef="batch_number">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch </th>
-                      <td mat-cell *matCellDef="let element"> {{element.batch_in_add}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.batch_number}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="item_in_add">
+                    <ng-container matColumnDef="equipment_name">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
-                      <td mat-cell *matCellDef="let element"> {{element.item_in_add}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.equipment_name}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="type_in_add">
@@ -109,22 +109,32 @@
                       <td mat-cell *matCellDef="let element"> {{element.type_in_add}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="purchased">
+                    <ng-container matColumnDef="quantity">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Purchased </th>
-                      <td mat-cell *matCellDef="let element"> {{element.purchased}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="used">
+                    <ng-container matColumnDef="total_used">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Used </th>
-                      <td mat-cell *matCellDef="let element"> {{element.used}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.total_used}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="balance">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Balance </th>
-                      <td mat-cell *matCellDef="let element"> {{element.balance}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.quantity - element.total_used}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="select">
+                    <ng-container matColumnDef="usage_qty">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                      <td mat-cell *matCellDef="let element">
+                        
+                           <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Used Amount" max="{{element.quantity - element.total_used}}"   type="number" formControlName="used_quantity" #used_quantity>
+                        </mat-form-field>
+                    
+                      </td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="select">
                       <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
@@ -137,8 +147,7 @@
                           [aria-label]="checkboxLabel(row)">
                         </mat-checkbox>
                       </td>
-                    </ng-container>
-
+                    </ng-container> -->
                     <tr mat-header-row class="head_color" *matHeaderRowDef="displayedColumns2"></tr>
                     <tr mat-row class="row_color" *matRowDef="let row; columns: displayedColumns2;"></tr>
                   </table>
@@ -148,26 +157,21 @@
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Last usage date</mat-label>
-                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="tpicker">
+                    <input matInput [matDatepicker]="tpicker" formControlName="last_usage" #last_usage>
                     <mat-datepicker-toggle matSuffix [for]="tpicker"></mat-datepicker-toggle>
                     <mat-datepicker #tpicker></mat-datepicker>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Description">
-                  </mat-form-field>
-                </div>
-
-                <div class="col-md-2">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Used Amount">
+                    <input matInput placeholder="Description" formControlName="description" #description>
                   </mat-form-field>
                 </div>
                 <div class="col">
                   <button mat-button class="btn btn-primary" type="submit">Submit</button>
-                </div>
+                </div>           
               </div>
+            </form>
             </div>
           </div>
         </mat-tab>

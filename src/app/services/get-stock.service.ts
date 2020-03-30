@@ -21,5 +21,33 @@ export class GetStockService {
   onGetSupplier(){
     return this._http.get<any>(this._url + '/getSupplierdata');
   }
+  onGetItemGroup(){
+    return this._http.get<any>(this._url + '/get-item-groups');
+  }
+  onGetItemBrand(){
+    return this._http.get<any>(this._url + '/get-item-brands');
+  }
+  onGetItemUnits(){
+    return this._http.get<any>(this._url + '/get-item-units');
+  }
+  onGetIndividualItem(item_id){
+    return this._http.get<any>(this._url + '/get-item-usage/' + item_id);
+  }
+onGetSubsidiaryStock(){
+  return this._http.get<any>(this._url + '/getSubsidiaryStock');
+}
+onGetBatch(){
+  return this._http.get<any>(this._url + '/batch-list');
+}
+  //==========================================================================
+
+  onAddUsage(data){
+    return this._http.post<any>(this._url + '/add-usage', data);
+  }
+
+  onIssueApparatus(data){
+    return this._http.post<any>(this._url + '/issue-apparatus', data);
+  }
+
 }
 

@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource, MatSort } from '@angular/material';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
 import { GetStockService } from 'app/services/get-stock.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface usageData {
   no: number;
@@ -14,8 +15,7 @@ export interface usageData {
   qty: number;
   unit: string;
 }
-
-export interface PeriodicElement2 {
+export interface usageitemData {
   no: number;
   batch_in_add: string;
   item_in_add: string;
@@ -29,10 +29,10 @@ export interface item {
   value: string;
   viewValue: string;
 }
-const ELEMENT_DATA2: PeriodicElement2[] = [
-  { no: 1, batch_in_add: 'HCL/1200',  item_in_add: 'HCL', type_in_add: 'Chemical', purchased: '10', used: 5, balance:5 },
-  { no: 1, batch_in_add: 'HCL/2050',  item_in_add: 'HCL', type_in_add: 'Chemical', purchased: '10', used: 5, balance:5 },
-];
+// const ELEMENT_DATA2: PeriodicElement2[] = [
+//   { no: 1, batch_in_add: 'HCL/1200', item_in_add: 'HCL', type_in_add: 'Chemical', purchased: '10', used: 5, balance: 5 },
+//   { no: 1, batch_in_add: 'HCL/2050', item_in_add: 'HCL', type_in_add: 'Chemical', purchased: '10', used: 5, balance: 5 },
+// ];
 
 @Component({
   selector: 'app-usage-report',
@@ -40,60 +40,69 @@ const ELEMENT_DATA2: PeriodicElement2[] = [
   styleUrls: ['./usage-report.component.scss']
 })
 export class UsageReportComponent implements OnInit {
-
-  items: item[] = [
-    {value: '0', viewValue: 'HCL'},
-    {value: '1', viewValue: 'Liquid N2'},
-    {value: '2', viewValue: 'NaCl'}
-  ];
-
-  constructor(private formBuilder: FormBuilder, private datepipe: DatePipe, private stock:GetStockService) { }
+  from_date: any;
+  to_date: any;
+  items: any;
+  Add_usage: FormGroup;
+  constructor(private formBuilder: FormBuilder, private datepipe: DatePipe, private stock: GetStockService,
+  private getitems: GetStockService, private toast:ToastrService) { }
 
   displayedColumns: string[] = ['no', 'batch', 'item', 'type', 'qty', 'unit'];
   dataSource = new MatTableDataSource<usageData>();
 
-  displayedColumns2: string[] = ['no', 'batch_in_add', 'item_in_add', 'type_in_add', 'purchased', 'used', 'balance', 'select'];
-  dataSource2 = new MatTableDataSource(ELEMENT_DATA2);
-
-  
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  selection = new SelectionModel<PeriodicElement2>(true, []);
+  displayedColumns2: string[] = ['no', 'batch_number', 'equipment_name', 'quantity', 'total_used', 'balance', 'usage_qty'];
+  ItemUsageSource = new MatTableDataSource<usageitemData>();
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit() {
+    this.Add_usage = this.formBuilder.group({
+      item:["",Validators.required],
+      used_quantity:["",Validators.required],
+      last_usage:["",Validators.required],
+      description:["",],
+    })
     this.dataSource.sort = this.sort;
-    
+    this.getitem();
   }
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource2.data.length;
-    return numSelected === numRows;
-  }
-
-  onGetUsageReport(from_date,to_date){
-    console.log(from_date,to_date);
-    const fdate = this.datepipe.transform(from_date, 'yyyy-MM-dd');
-    const tdate = this.datepipe.transform(to_date, 'yyyy-MM-dd');
-    
-    this.stock.onGetUsageReport(fdate, tdate).subscribe((res:any)=>{
-    console.log(res.data);
-    this.dataSource=new MatTableDataSource(res.data);
+  getitem() {
+    this.getitems.getitems().subscribe((res: any) => {
+      console.log(res.items);
+      this.items = res.items;
     });
   }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource2.data.forEach(row => this.selection.select(row));
+  onGetUsageReport(from_date, to_date) {
+    // console.log(from_date,to_date);
+    const fdate = this.datepipe.transform(from_date, 'yyyy-MM-dd');
+    const tdate = this.datepipe.transform(to_date, 'yyyy-MM-dd');
+    this.stock.onGetUsageReport(fdate, tdate).subscribe((res: any) => {
+      console.log(res.data);
+      this.dataSource = new MatTableDataSource(res.data);
+    });
   }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement2): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.no + 1}`;
+  onChangeItem(item){
+    this.getitems.onGetIndividualItem(item).subscribe((res:any)=>{
+      console.log(res);
+      this.ItemUsageSource=new MatTableDataSource(res.data)
+    })
   }
-
+  OnSubmitUsage() {
+    this.getitems.onAddUsage(this.Add_usage.value).subscribe((res:any)=>{
+      console.log(res);
+      if(res.success)
+      {
+        this.toast.success(res.message);
+      }
+        else
+        {
+        this.toast.warning(res.message);
+      }
+      this.Add_usage.reset();
+    })
+  }
 }
+
+
+
+
+
+

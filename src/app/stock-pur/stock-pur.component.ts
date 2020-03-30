@@ -59,7 +59,7 @@ export interface type {
   viewValue: string;
 }
 export interface brand {
-  value: string;
+  value: number;
   viewValue: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -86,10 +86,10 @@ export class StockPurComponent implements OnInit {
   pur_add: FormGroup;
 
 
-  types: type[] = [
-    {value: '0', viewValue: 'Apparatus'},
-    {value: '1', viewValue: 'Chemical'},
-  ];
+  // types: type[] = [
+  //   {value: '0', viewValue: 'Apparatus'},
+  //   {value: '1', viewValue: 'Chemical'},
+  // ];
 
   // curs: cur[] = [
   //   { value: '0', viewValue: 'INR' },
@@ -97,12 +97,12 @@ export class StockPurComponent implements OnInit {
   //   { value: '2', viewValue: 'DINAR' }
   // ];
 
-  units: unit[] = [
-    { value: '0', viewValue: 'ml' },
-    { value: '1', viewValue: 'kg' },
-    { value: '2', viewValue: 'l' },
-    { value: '2', viewValue: 'g' },
-  ];
+  // units: unit[] = [
+  //   { value: '0', viewValue: 'ml' },
+  //   { value: '1', viewValue: 'kg' },
+  //   { value: '2', viewValue: 'l' },
+  //   { value: '2', viewValue: 'g' },
+  // ];
 
   // stock_items: Item[] = [
   //   { id: '0', equipment_name: 'HCL' },
@@ -110,12 +110,12 @@ export class StockPurComponent implements OnInit {
   //   { id: '2', equipment_name: 'Beacker' },
   // ];
 
-  brands: brand[] = [
-    { value: '0', viewValue: 'Borosilicate' },
-    { value: '1', viewValue: 'Corning' },
-    { value: '2', viewValue: 'LABORATORY REAGENTS' },
-    { value: '3', viewValue: 'ANALYTICAL REAGENT' },
-  ];
+  // brands: brand[] = [
+  //   { value: '0', viewValue: 'Borosilicate' },
+  //   { value: '1', viewValue: 'Corning' },
+  //   { value: '2', viewValue: 'LABORATORY REAGENTS' },
+  //   { value: '3', viewValue: 'ANALYTICAL REAGENT' },
+  // ];
   supplier_edit: FormGroup;
   stock_edit: FormGroup;
   res: any;
@@ -125,6 +125,10 @@ export class StockPurComponent implements OnInit {
   stock_items: any;
   supplier_name: any;
   total: number;
+  type: any;
+  types:any
+  units:any;
+  brands:any;
   // today:any;
   // stock_items: any;
 
@@ -136,7 +140,7 @@ export class StockPurComponent implements OnInit {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   // displayedColumns2: string[] = ['sl_no', 'equipment_name', 'description', 'specification', 'type', 'brand_name', 'unit'];
-  displayedColumns2: string[] = ['sl_no', 'equipment_name', 'description', 'specification', 'type'];
+  displayedColumns2: string[] = ['sl_no', 'equipment_name', 'description', 'specification', 'equipment_group', 'unit_name'];
  itemSource = new MatTableDataSource<Items>();
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -148,17 +152,21 @@ export class StockPurComponent implements OnInit {
     this.selected_item=[];
     this.getItem();
     this.getSupplier();
+    this.onGetItemGroup();
+    this.onGetBrands();
+    this.onGetItemUnits();
     
     this.dataSource.sort = this.sort;
     this.itemSource.sort = this.sort;
     this.item_add=this.formBuilder.group({
       item_name: ['',Validators.required],
-      use: ['',],
+      use: [''],
       spec: [''],
-      type: ['',],
-      unit: ['',], 
+      type: [''],
+      group_id:[''],
+      unit: [''], 
       qty_name:[''],
-      brand:['',],
+      brand:[''],
     });
     this.stock_edit=this.formBuilder.group({
       edit_batch: ['',Validators.required],
@@ -167,7 +175,7 @@ export class StockPurComponent implements OnInit {
       edit_qty: ['',Validators.required],
       edit_unit: ['',Validators.required], 
       edit_invoice: ['',Validators.required],
-      edit_supplier: ['',Validators.required],
+      edit_supplier: ['',Validators.required], 
     });
     this.pur_add = this.formBuilder.group({
       invoice_number: ['',Validators.required],
@@ -176,6 +184,24 @@ export class StockPurComponent implements OnInit {
       batch_id:['',Validators.required],
       supplier_id:['',Validators.required],
       invoice_amount:['',Validators.required],
+    });
+  }
+  onGetItemUnits() {
+    this.getitems.onGetItemUnits().subscribe((res:any)=>{
+      console.log(res.units);
+      this.units=res.units;
+    })
+  }
+  onGetBrands() {
+    this.getitems.onGetItemBrand().subscribe((res:any)=> {
+      console.log(res.brands)
+      this.brands=res.brands;
+    });
+  }
+  onGetItemGroup() {
+    this.getitems.onGetItemGroup().subscribe((res:any)=>{
+      console.log(res.groups);
+      this.types=res.groups;
     });
   }
   getSupplier() {
@@ -265,8 +291,8 @@ export class StockPurComponent implements OnInit {
   onSubmitItem() {
     console.log(this.item_add.value);
     this._item_addService.register(this.item_add.value).subscribe(res=>{
-      console.log(res);   
-      console.log(res);
+      // console.log(res);   
+      // console.log(res);
       if(res.success)
       {
         this.toast.success(res.message);
@@ -275,6 +301,7 @@ export class StockPurComponent implements OnInit {
         {
         this.toast.warning(res.message);
       }
+    this.getItem();
         this.item_add.reset();
     });
   }

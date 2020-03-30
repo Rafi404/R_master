@@ -7,6 +7,7 @@ import { subscribeOn } from 'rxjs/operators';
 import { error } from 'protractor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { GetStockService } from 'app/services/get-stock.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface SupplierData {
   no: number;
@@ -37,7 +38,8 @@ export interface SupplierData {
 })
 export class SupplierComponent implements OnInit {
 
-  displayedColumns: string[] = ['no', 'sup_name', 'sup_company', 'mobile', 'email', 'add1', 'add2', 'city', 'state', 'po','edit'];
+  // displayedColumns: string[] = ['no', 'supplier_name', 'company_name', 'mobile', 'email', 'address1', 'address1', 'city_id', 'state', 'po','edit'];
+  displayedColumns: string[] = ['no', 'supplier_name', 'company_name', 'mobile', 'email', 'address1', 'address2','edit'];
   
 
    applyFilter(event: Event) {
@@ -52,23 +54,22 @@ export class SupplierComponent implements OnInit {
   sup_add:FormGroup;
   supplier_edit:FormGroup;
 
-  constructor(private form_builder:FormBuilder, private _supplier_addService:SupplierAddService) { }
+  constructor(private form_builder:FormBuilder, private supplier:SupplierAddService, private toast:ToastrService) { }
 
   ngOnInit() {
-
+    // this.getSupplier();
     this.dataSource.sort = this.sort;
-
     this.sup_add =this.form_builder.group({
       supnm:["",Validators.required],
       supcom:["",Validators.required],
       supmob:["",Validators.required],
-      supmail:["",Validators.required],
+      supmail:["",Validators.email],
       supadd1:["",Validators.required],
       supadd2:["",Validators.required],
       supcty:["",Validators.required],
       supstate:["",Validators.required],
       suppo:["",Validators.required],
-    })
+    });
     this.supplier_edit=this.form_builder.group({
       edit_suppliername:["",Validators.required],
       edit_company:["",Validators.required],
@@ -79,12 +80,17 @@ export class SupplierComponent implements OnInit {
       edit_cty:["",Validators.required],
       edit_state:["",Validators.required],
       edit_po:["",Validators.required],
-    })
-      this._supplier_addService.getSupplier().subscribe((res:any)=>{
-        console.log(res.data);
+    });
+      this.supplier.getSupplier().subscribe((res:any)=>{
+        console.log(res);
         this.dataSource=new MatTableDataSource(res.supplierdata);
       })
   }
+  // getSupplier() {
+  //   this.supplier.getSupplier().subscribe((res:any)=>{
+  //     console.log(res.data);
+  //   });
+  // }
   onOpenModal(element) {
     console.log(element);
     this.supplier_edit.patchValue({
@@ -101,11 +107,19 @@ export class SupplierComponent implements OnInit {
   }
   OnSubmitsup(){
     console.log(this.sup_add.value);
-    this._supplier_addService.register(this.sup_add.value).subscribe(res=>{
+    this.supplier.register(this.sup_add.value).subscribe(res=>{
       console.log(res);
-    })
+      if(res.success)
+      {
+        this.toast.success(res.message);
+      }
+        else
+        {
+        this.toast.warning(res.message);
+      }
+      this.sup_add.reset();
+    });
   }
-
   onEditSupplier(){
     
   }

@@ -17,25 +17,26 @@
         </ng-container>
       
      
-         <ng-container matColumnDef="batch">
+         <ng-container matColumnDef="batch_number">
           <th mat-header-cell *matHeaderCellDef> Batch </th>
-          <td mat-cell *matCellDef="let element"> {{element.batch}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.batch_number}} </td>
         </ng-container>
       
-        <ng-container matColumnDef="item">
+        <ng-container matColumnDef="equipment_name">
           <th mat-header-cell *matHeaderCellDef> Item </th>
-          <td mat-cell *matCellDef="let element"> {{element.item}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.equipment_name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="qty">
+        <ng-container matColumnDef="quantity">
           <th mat-header-cell *matHeaderCellDef> Quantity Left </th>
-          <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.quantity-element.total_used}} </td>
         </ng-container>
  
         <ng-container matColumnDef="unit">
           <th mat-header-cell *matHeaderCellDef> Unit </th>
-          <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.unit_name}} </td>
         </ng-container>
+
     
         <!-- <ng-container matColumnDef="store_name">
           <th mat-header-cell *matHeaderCellDef> Store Name </th>

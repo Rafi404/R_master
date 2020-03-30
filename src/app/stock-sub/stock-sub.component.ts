@@ -48,7 +48,7 @@ export class StockSubComponent implements OnInit {
     {value: '1', viewValue: 'g'},
     {value: '2', viewValue: 'litter'}
   ];
-  displayedColumns: string[] = ['no', 'batch', 'item', 'qty', 'unit',];
+  displayedColumns: string[] = ['no', 'batch_number', 'equipment_name', 'quantity', 'unit'];
   dataSource = new MatTableDataSource<StockData>();
 
   // filtering
@@ -69,7 +69,6 @@ export class StockSubComponent implements OnInit {
       strnm:['',Validators.required],
       loc:['',Validators.required],
     })
-
    this.service.getStock().subscribe((res: any) => {
      console.log(res.data);
      this.dataSource=new MatTableDataSource(res.data);
