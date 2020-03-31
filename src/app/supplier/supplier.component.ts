@@ -39,7 +39,7 @@ export interface SupplierData {
 export class SupplierComponent implements OnInit {
 
   // displayedColumns: string[] = ['no', 'supplier_name', 'company_name', 'mobile', 'email', 'address1', 'address1', 'city_id', 'state', 'po','edit'];
-  displayedColumns: string[] = ['no', 'supplier_name', 'company_name', 'mobile', 'email', 'address1', 'address2','edit'];
+  displayedColumns: string[] = ['no', 'supplier_name', 'company_name', 'mobile', 'email', 'address1', 'address2'];
   
 
    applyFilter(event: Event) {
@@ -57,7 +57,7 @@ export class SupplierComponent implements OnInit {
   constructor(private form_builder:FormBuilder, private supplier:SupplierAddService, private toast:ToastrService) { }
 
   ngOnInit() {
-    // this.getSupplier();
+    this.getSupplier();
     this.dataSource.sort = this.sort;
     this.sup_add =this.form_builder.group({
       supnm:["",Validators.required],
@@ -74,23 +74,26 @@ export class SupplierComponent implements OnInit {
       edit_suppliername:["",Validators.required],
       edit_company:["",Validators.required],
       edit_Mobile:["",Validators.required],
-      edit_mail:["",Validators.required],
+      edit_mail:["",Validators.email],
       edit_add1:["",Validators.required],
       edit_add2:["",Validators.required],
       edit_cty:["",Validators.required],
       edit_state:["",Validators.required],
       edit_po:["",Validators.required],
     });
-      this.supplier.getSupplier().subscribe((res:any)=>{
-        console.log(res);
-        this.dataSource=new MatTableDataSource(res.supplierdata);
-      })
+      // this.supplier.getSupplier().subscribe((res:any)=>{
+      //   console.log(res);
+      //   this.dataSource=new MatTableDataSource(res.supplierdata);
+      // });
   }
-  // getSupplier() {
-  //   this.supplier.getSupplier().subscribe((res:any)=>{
-  //     console.log(res.data);
-  //   });
-  // }
+  getSupplier() {
+    this.supplier.getSupplier().subscribe((res:any)=>{
+      console.log(res);
+      this.dataSource=new MatTableDataSource(res.supplierdata);
+      this.dataSource.sort = this.sort;
+
+    });
+  }
   onOpenModal(element) {
     console.log(element);
     this.supplier_edit.patchValue({
@@ -118,6 +121,8 @@ export class SupplierComponent implements OnInit {
         this.toast.warning(res.message);
       }
       this.sup_add.reset();
+       this.getSupplier();
+
     });
   }
   onEditSupplier(){

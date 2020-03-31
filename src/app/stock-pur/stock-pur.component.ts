@@ -129,8 +129,10 @@ export class StockPurComponent implements OnInit {
   types:any
   units:any;
   brands:any;
+  items: any;
   // today:any;
-  // stock_items: any;
+  i:any;
+
 
   constructor(private formBuilder: FormBuilder, private _item_addService:ItemAddService,
      private _stock_addService:StockAddService,
@@ -151,6 +153,7 @@ export class StockPurComponent implements OnInit {
   ngOnInit() {
     this.selected_item=[];
     this.getItem();
+    this.getItemList();
     this.getSupplier();
     this.onGetItemGroup();
     this.onGetBrands();
@@ -186,6 +189,12 @@ export class StockPurComponent implements OnInit {
       invoice_amount:['',Validators.required],
     });
   }
+  getItemList() {
+      this.getitems.getitems().subscribe((res: any) => {
+        console.log(res.items);
+        this.stock_items = res.items;
+  });
+}
   onGetItemUnits() {
     this.getitems.onGetItemUnits().subscribe((res:any)=>{
       console.log(res.units);

@@ -419,7 +419,7 @@
         </div>
       </div>
     </div>
-    <!-- Edit supplier modal -->
+    <!-- Edit stock modal -->
     <!-- Modal -->
     <div class="modal fade" id="editStock" tabindex="-1" role="dialog" aria-labelledby="editStock" aria-hidden="true">
       <div class="modal-dialog " role="document">
@@ -442,8 +442,13 @@
                 </div>
 
                 <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Item" formControlName="edit_item" #edit_item>
+                  <mat-form-field>
+                    <mat-label>Select item</mat-label>
+                    <mat-select formControlName="item" #item [(ngModel)]="selected_item[i]">
+                      <mat-option *ngFor="let item of stock_items" [value]="item">
+                        {{item.equipment_name}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
 
@@ -462,8 +467,13 @@
 
               <div class="row justify-content-center">
                 <div class="col-md-2">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Unit" formControlName="edit_unit" #edit_unit>
+                  <mat-form-field>
+                    <mat-label>Unit</mat-label>
+                    <mat-select formControlName="unit" #unit>
+                      <mat-option *ngFor="let unit of units" [value]="unit.id">
+                        {{unit.unit_name}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
 
@@ -474,8 +484,13 @@
                 </div>
 
                 <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Supplier" formControlName="edit_supplier" #edit_supplier>
+                  <mat-form-field>
+                    <mat-label>Supplier</mat-label>
+                    <mat-select formControlName="supplier_id" #supplier_id>
+                      <mat-option *ngFor="let supplier of supplier_name" [value]="supplier.id">
+                        {{supplier.supplier_name}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
               </div>
