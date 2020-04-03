@@ -67,7 +67,7 @@ export class AuthComponent implements OnInit {
               this.toast.error('You Are UnAuthorized','Restricted');
               this.onReset();
             } else {
-            this.router.navigate(['/stock-pur']);
+            this.router.navigate(['/route-master']);
             // this.router.navigate([this.returnUrl]);
             }
           },

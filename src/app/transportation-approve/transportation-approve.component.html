@@ -1,0 +1,81 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card mt-n2">
+      <div class="card-body">
+
+        <div class="row">     
+          <div class="col-md-6 mt-5 ml-5">
+            <mat-form-field appearance="outline">
+              <mat-icon matSuffix>directions</mat-icon>
+              <mat-label>Select Active Routes</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let rute of routes" [value]="rute.value">
+                  {{rute.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> 
+
+          <div class="col-md-3 col-sm-6 ml-8">
+            <div class="card card-stats ">
+              <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">supervisor_account</i>
+                </div>
+                <p class="card-category">Student Strength</p>
+                <h3 class="card-title">45</h3>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <table mat-table [dataSource]="ApprovalSource" matSort class="mat-elevation-z8">               
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Sl.No </th>
+              <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="student">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Student </th>
+              <td mat-cell *matCellDef="let element"> {{element.student_id}} <br> {{element.student_name}} <br> {{element.batch}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="station">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Station </th>
+              <td mat-cell *matCellDef="let element"> 
+                  <mat-form-field class="station_drop" appearance="outline">
+                    <mat-select placeholder="Select station">
+                      <mat-option *ngFor="let station of stations" [value]="station.value">
+                        {{station.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="charge">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Charge </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="">
+                  <mat-icon matSuffix>monetization_on</mat-icon>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+              <td mat-cell *matCellDef="let element"> 
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="">
+                  <mat-icon matSuffix>monetization_on</mat-icon>
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        </div>
+        </div>
+        </div>

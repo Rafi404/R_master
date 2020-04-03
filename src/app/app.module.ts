@@ -38,15 +38,17 @@ import { AuthModule } from './auth/auth.module';
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthComponent } from './auth/auth.component';
-import { SyllabusComponent } from './syllabus/syllabus.component';
-import { GenNotesComponent } from './gen-notes/gen-notes.component';
-import { ItemComponent } from './item/item.component';
-import { StockPurComponent } from './stock-pur/stock-pur.component';
-import { StockSubComponent } from './stock-sub/stock-sub.component';
-import { SupplierComponent } from './supplier/supplier.component';
-import { IssueAppComponent } from './issue-app/issue-app.component';
-import { BreakageComponent } from './breakage/breakage.component';
-import { UsageReportComponent } from './usage-report/usage-report.component';
+import { TransportationApprovalComponent } from './transportation-approval/transportation-approval.component';
+import { TransportationApproveComponent } from './transportation-approve/transportation-approve.component';
+// import { SyllabusComponent } from './syllabus/syllabus.component';
+// import { GenNotesComponent } from './gen-notes/gen-notes.component';
+// import { ItemComponent } from './item/item.component';
+// import { StockPurComponent } from './stock-pur/stock-pur.component';
+// import { StockSubComponent } from './stock-sub/stock-sub.component';
+// import { SupplierComponent } from './supplier/supplier.component';
+// import { IssueAppComponent } from './issue-app/issue-app.component';
+// import { BreakageComponent } from './breakage/breakage.component';
+// import { UsageReportComponent } from './usage-report/usage-report.component';
 @NgModule({
   imports: [
     ToastrModule.forRoot({
@@ -75,12 +77,6 @@ import { UsageReportComponent } from './usage-report/usage-report.component';
     AppComponent,
     AdminLayoutComponent,
     AuthComponent,
-    
-    
-    
-    
-    
-
   ],
   providers: [
     AuthModule,

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, AfterViewInit, AfterContentInit } 
 import * as Chartist from 'chartist';
 import { AuthserviceService } from 'app/auth/authservice.service';
 import { BlockScrollStrategy } from '@angular/cdk/overlay';
-import { LibraryService } from 'app/services/library.service';
+// import { LibraryService } from 'app/services/library.service';
 import { MatTableDataSource } from '@angular/material';
 import {MatSort, MatSortable, MatPaginator} from '@angular/material';
 import { of, zip } from 'rxjs';
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   statistics: any;
   @ViewChild (MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true})paginator: MatPaginator;
-  constructor(private authservice: AuthserviceService, private libraryService: LibraryService) {
+  constructor(private authservice: AuthserviceService,) {
   }
   ngOnInit() {
   //   this.authservice.getBooks().subscribe((data: any) => {
