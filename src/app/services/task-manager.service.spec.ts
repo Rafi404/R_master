@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TransportService } from './transport.service';
+import { TaskManagerService } from './task-manager.service';
 
-describe('TransportService', () => {
+describe('TaskManagerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TransportService = TestBed.get(TransportService);
+    const service: TaskManagerService = TestBed.get(TaskManagerService);
     expect(service).toBeTruthy();
   });
 });

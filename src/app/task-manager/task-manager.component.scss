@@ -1,0 +1,25 @@
+table {
+    width: 100%;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  table th,
+table td {
+  padding: -0.375em;
+  text-align: left;
+  font-weight: bolder; 
+//   text-align: center;
+}
+table tr:hover {
+background-color: #9fdafc;
+  }
+table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background-color:#1e88e5;
+    font-weight: 900;
+    color:white;
+  }

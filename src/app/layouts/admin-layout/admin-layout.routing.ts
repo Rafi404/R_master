@@ -9,9 +9,7 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { RandomGuard } from 'app/guards/random.guard';
-import { TransportationComponent } from 'app/transportation/transportation.component';
-import { TransportationApprovalComponent } from 'app/transportation-approval/transportation-approval.component';
-import { TransportationApproveComponent } from 'app/transportation-approve/transportation-approve.component';
+import { TaskManagerComponent } from 'app/task-manager/task-manager.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -57,17 +55,15 @@ export const AdminLayoutRoutes: Routes = [
     //         component: UpgradeComponent
     //     }]
     // }
-    { path: 'dashboard',      component: DashboardComponent , },
-    { path: 'table-list',     component: TableListComponent , },
-    { path: 'typography',     component: TypographyComponent,  },
-    { path: 'icons',          component: IconsComponent,  },
-    { path: 'maps',           component: MapsComponent,  },
-    { path: 'notifications',  component: NotificationsComponent,  },
-    { path: 'upgrade',        component: UpgradeComponent,  },
-    { path: 'route-master', component: TransportationComponent,  },
-    { path: 'transporatation-approval', component: TransportationApprovalComponent,  },
-    { path: 'transporatation-approve',  component: TransportationApproveComponent,  },
-    
-  
-    
+    { path: 'dashboard', component: DashboardComponent, },
+    { path: 'table-list', component: TableListComponent, },
+    { path: 'typography', component: TypographyComponent, },
+    { path: 'icons', component: IconsComponent, },
+    { path: 'maps', component: MapsComponent, },
+    { path: 'notifications', component: NotificationsComponent, },
+    { path: 'upgrade', component: UpgradeComponent, },
+    { path: 'task-manager', component: TaskManagerComponent, },
+
+
+
 ];

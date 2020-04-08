@@ -42,9 +42,7 @@ import { RandomGuard } from 'app/guards/random.guard';
 import { AuthModule } from 'app/auth/auth.module';
 import { AuthserviceService } from 'app/auth/authservice.service';
 import { MessageService } from 'app/services/message.service';
-import { TransportationComponent } from 'app/transportation/transportation.component';
-import { TransportationApprovalComponent } from 'app/transportation-approval/transportation-approval.component';
-import { TransportationApproveComponent } from 'app/transportation-approve/transportation-approve.component';
+import { TaskManagerComponent } from 'app/task-manager/task-manager.component';
 
 
 
@@ -97,9 +95,8 @@ import { TransportationApproveComponent } from 'app/transportation-approve/trans
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    TransportationComponent,
-    TransportationApprovalComponent,
-    TransportationApproveComponent,
+    TaskManagerComponent,
+
 
 
   ]

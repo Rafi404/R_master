@@ -1,0 +1,146 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <mat-tab-group dynamicHeight backgroundColor="primary">
+          <mat-tab label="Task Manager">
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-icon matSuffix>device_hub</mat-icon>
+                  <mat-label>Select Active Projects</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let arrival_station of arrival_stations" [value]="arrival_station.value">
+                      {{arrival_station.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Search Tasks</mat-label>
+                  <input matInput placeholder="">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <form [formGroup]="TaskFormGroup" (ngSubmit)="OnSubmitTask()">
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Task Name</mat-label>
+                    <input matInput placeholder="" formControlName="task_name" #task_name>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <input matInput placeholder="" formControlName="description" #description>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Reporting To</mat-label>
+                    <mat-select formControlName="task_manager_id" #task_manager_id>
+                      <mat-option *ngFor="let staff_name of staff_names" [value]="staff_name.value">
+                        {{staff_name.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="start_date" #start_date>
+                    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="epicker" formControlName="end_date" #end_date>
+                    <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+                    <mat-datepicker #epicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-1 pr-0">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Hours</mat-label>
+                    <input matInput placeholder=""  type="number" min="0" formControlName="hour_part" #hour_part>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-1 pl-0">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Minutes</mat-label>
+                    <input matInput placeholder="" type="number" min="0" max="59" formControlName="minute_part" #mint_part>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status" #status>
+                      <mat-option *ngFor="let status of statuses" [value]="status.value">
+                        {{status.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-2 text-center">
+                  <button class="btn btn-primary" type="submit">ADD</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="row">
+              <table mat-table [dataSource]="taskSource" matSort class="mat-elevation-z8">
+
+                <ng-container matColumnDef="no">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                  <td mat-cell *matCellDef="let element;index as i"> {{i+1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="task_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.task_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                  <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="planned_hours">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Planned_Hours </th>
+                  <td mat-cell *matCellDef="let element"> {{element.planned_hours}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="task_manager_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting To </th>
+                  <td mat-cell *matCellDef="let element"> {{element.task_manager_id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="start_date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>
