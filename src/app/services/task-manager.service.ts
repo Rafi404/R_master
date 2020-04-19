@@ -17,9 +17,32 @@ export class TaskManagerService {
   return this._http.post<any>(this.rootUrl + '/post-task', data);
   }
 
+    // Add Task
+    onAddDuty(data){
+      return this._http.post<any>(this.rootUrl + '/post-duty', data);
+      }
+
   //Get Services=============================================================
-//get Vehicle name list
-onGetVehicleList(){
-  return this._http.get<any>(this._url + '/get-vehiclename');
+//get staff list
+onGetStaff(){
+  return this._http.get<any>(this.rootUrl + '/select-staff');
 }
+//get task list
+onGetTaskList(key){
+  return this._http.get<any>(this.rootUrl + '/tasksearch/' + key);
+}
+//get Live project list
+onGetLiveProject(){
+  return this._http.get<any>(this.rootUrl + '/get-active-project');
+}
+
+//get Task list to table
+onGetTask(){
+  return this._http.get<any>(this.rootUrl + '/get-task');        
+}
+
+//get Duty list to table
+onGetDutyList(){
+  return this._http.get<any>(this.rootUrl + '/get-duty'); 
   }
+}

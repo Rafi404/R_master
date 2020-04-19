@@ -5,68 +5,83 @@
         <mat-tab-group dynamicHeight backgroundColor="primary">
           <mat-tab label="Task Manager">
             <div class="row mt-2">
-              <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-icon matSuffix>device_hub</mat-icon>
-                  <mat-label>Select Active Projects</mat-label>
-                  <mat-select>
-                    <mat-option *ngFor="let arrival_station of arrival_stations" [value]="arrival_station.value">
-                      {{arrival_station.viewValue}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
+              <div class="col-md-10">
                 <mat-form-field appearance="outline">
                   <mat-label>Search Tasks</mat-label>
-                  <input matInput placeholder="">
+                  <input matInput placeholder="" (keyup.enter)="onTaskSearch($event.target.value)">
                   <mat-icon matSuffix>search</mat-icon>
                 </mat-form-field>
               </div>
-            </div>
-            <form [formGroup]="TaskFormGroup" (ngSubmit)="OnSubmitTask()">
-              <div class="row">
-                <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Task Name</mat-label>
-                    <input matInput placeholder="" formControlName="task_name" #task_name>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Description</mat-label>
-                    <input matInput placeholder="" formControlName="description" #description>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Reporting To</mat-label>
-                    <mat-select formControlName="task_manager_id" #task_manager_id>
-                      <mat-option *ngFor="let staff_name of staff_names" [value]="staff_name.value">
-                        {{staff_name.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
+              <div class="col-md-1 text-center mt-2">
+                <button mat-button color="primary" (click)="getTaskTableList()">
+                  <mat-icon>cached</mat-icon>
+                </button>
               </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Start Date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="start_date" #start_date>
-                    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
+              <div class="col-md-1 text-center mt-2">
+                <button mat-button color="primary" (click)="showTask()">
+                  <mat-icon>add_to_queue</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="add-task" *ngIf="show_add_task">
+              <form [formGroup]="TaskFormGroup" (ngSubmit)="OnSubmitTask()">
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field appearance="outline">
+                      <mat-icon matSuffix>device_hub</mat-icon>
+                      <mat-label>Select Active Projects</mat-label>
+                      <mat-select formControlName="project_id" #project_id>
+                        <mat-option *ngFor="let live_project of live_projects" [value]="live_project.id">
+                          {{live_project.project_name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>End Date</mat-label>
-                    <input matInput [matDatepicker]="epicker" formControlName="end_date" #end_date>
-                    <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
-                    <mat-datepicker #epicker></mat-datepicker>
-                  </mat-form-field>
+
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Task Name</mat-label>
+                      <input matInput placeholder="" formControlName="task_name" #task_name>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Description</mat-label>
+                      <input matInput placeholder="" formControlName="description" #description>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reporting To</mat-label>
+                      <mat-select formControlName="task_manager_id" #task_manager_id>
+                        <mat-option *ngFor="let staff_name of staff_names" [value]="staff_name.staff_id">
+                          {{staff_name.staff_name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="col-md-1 pr-0">
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Start Date</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="start_date" #start_date>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                      <mat-label>End Date</mat-label>
+                      <input matInput [matDatepicker]="epicker" formControlName="end_date" #end_date>
+                      <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+                      <mat-datepicker #epicker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-md-1 pr-0">
                   <mat-form-field appearance="outline">
                     <mat-label>Hours</mat-label>
                     <input matInput placeholder=""  type="number" min="0" formControlName="hour_part" #hour_part>
@@ -77,30 +92,38 @@
                     <mat-label>Minutes</mat-label>
                     <input matInput placeholder="" type="number" min="0" max="59" formControlName="minute_part" #mint_part>
                   </mat-form-field>
-                </div>
+                </div> -->
+                  <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                      <mat-label> Work Hours</mat-label>
+                      <input matInput placeholder="" formControlName="planned_minutes" #planned_minutes>
+                    </mat-form-field>
+                  </div>
 
-                <div class="col-md-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Status</mat-label>
-                    <mat-select formControlName="status" #status>
-                      <mat-option *ngFor="let status of statuses" [value]="status.value">
-                        {{status.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
+                  <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Status</mat-label>
+                      <mat-select formControlName="status" #status>
+                        <mat-option *ngFor="let status of statuses" [value]="status.value">
+                          {{status.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
 
-                <div class="col-md-2 text-center">
-                  <button class="btn btn-primary" type="submit">ADD</button>
+                  <div class="col-md-2 text-center">
+                    <button class="btn btn-primary" type="submit">ADD</button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
+
 
             <div class="row">
               <table mat-table [dataSource]="taskSource" matSort class="mat-elevation-z8">
 
                 <ng-container matColumnDef="no">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Sl No </th>
                   <td mat-cell *matCellDef="let element;index as i"> {{i+1}} </td>
                 </ng-container>
 
@@ -134,12 +157,266 @@
                   <td mat-cell *matCellDef="let element"> {{element.status}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-button color="warn">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
             </div>
+            <div class="row mt-1 justify-content-center" style="color:red" *ngIf="taskSource?.data.length==0">
+              <b>No Records Found !</b>
+            </div>
+          </mat-tab>
+          <mat-tab label="Duty Roaster">
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-icon matSuffix>device_hub</mat-icon>
+                  <mat-label>Select Active Projects</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let live_project of live_projects" [value]="live_project.id">
+                      {{live_project.project_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>Search Tasks</mat-label>
+                  <input matInput placeholder="" (keyup.enter)="onTaskSearch2($event.target.value)">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1 mt-3">
+                <button mat-button color="primary" (click)="getDutyList()">
+                  <mat-icon>cached</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="row">
+              <table mat-table [dataSource]="roasterSource" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="no">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                  <td mat-cell *matCellDef="let element;index as i"> {{i+1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="task_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.task_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                  <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hour">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Planned_Hours </th>
+                  <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="staff_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting To </th>
+                  <td mat-cell *matCellDef="let element"> {{element.staff_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="worked_date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.worked_date}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-button color="warn">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+              </table>
+            </div>
+            <div class="row mt-1 justify-content-center" style="color:red" *ngIf="roasterSource?.data.length==0">
+              No Records Found !
+            </div>
+          </mat-tab>
+          <mat-tab label="Assign Duties">
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-icon matSuffix>device_hub</mat-icon>
+                  <mat-label>Select Active Projects</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let live_project of live_projects" [value]="live_project.id">
+                      {{live_project.project_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Search Tasks</mat-label>
+                  <input matInput placeholder="" (keyup.enter)="onTaskSearch3($event.target.value)">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <table mat-table [dataSource]="assignSource" matSort class="mat-elevation-z8">
+
+                <ng-container matColumnDef="no">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                  <td mat-cell *matCellDef="let element;index as i"> {{i+1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="task_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.task_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                  <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="planned_hours">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Planned_Hours </th>
+                  <td mat-cell *matCellDef="let element"> {{element.planned_hours}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="task_manager_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting To </th>
+                  <td mat-cell *matCellDef="let element"> {{element.task_manager_id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="start_date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-button color="warn" data-toggle="modal" data-target="#dutyAssign">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </td>
+
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+              </table>
+            </div>
+            <div class="row mt-1 justify-content-center" style="color:red" *ngIf="assignSource?.data.length==0">
+              No Records Found !
+            </div>
           </mat-tab>
         </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Duty Modal  -->
+<div class="modal fade" id="dutyAssign" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="dutyAssignLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title w-100 text-center" id="dutyAssignLabel">Assign Duties</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+
+          <div class="box">
+            <div class="row justify-content-center">
+              <div class="col-md-12">
+                <b>Task Name&nbsp;&nbsp;|&nbsp;&nbsp; Frotend Design</b>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-12">
+                <b>Reporting to &nbsp;&nbsp;|&nbsp;&nbsp; MUHAMMED RAFI KM</b>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-12">
+                <b>Allotted Hour &nbsp;&nbsp;|&nbsp;&nbsp; 4</b>
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="DutyRoasterFormGroup" (ngSubmit)="OnSubmitDuty()">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Select Staff</mat-label>
+                  <mat-select formControlName="staff_name" #staff_name>
+                    <mat-option *ngFor="let staff_name of staff_names" [value]="staff_name.staff_id">
+                      {{staff_name.staff_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Task Name</mat-label>
+                  <input matInput placeholder="" formControlName="task_name" #task_name>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Subjects</mat-label>
+                  <input matInput placeholder="" formControlName="subjects" #subjects>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Date</mat-label>
+                  <input matInput [matDatepicker]="datepicker" formControlName="worked_date" #worked_date>
+                  <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2 pr-0 text-right">
+                <mat-form-field appearance="outline">
+                  <mat-label>Hours</mat-label>
+                  <input matInput placeholder="" type="number" min="0" formControlName="hour" #hour>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2 pl-0 text-right">
+                <mat-form-field appearance="outline">
+                  <mat-label>Minutes</mat-label>
+                  <input matInput placeholder="" type="number" min="0" max="59" formControlName="minute" #minute>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2 mt-2">
+                <button class="btn btn-primary" type="submit">ADD</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

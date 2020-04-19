@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['slNo', 'id', 'author', 'category', 'rack_no', 'status', 'update'];
   books: MatTableDataSource<any>;
   book: any;
+  applyFilter:any
   bookhistory: any;
   statistics: any;
   @ViewChild (MatSort, {static: true}) sort: MatSort;

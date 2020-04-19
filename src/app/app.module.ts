@@ -9,7 +9,9 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatAutocompleteModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatDialogModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 
@@ -39,6 +41,9 @@ import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthComponent } from './auth/auth.component';
 import { TaskManagerComponent } from './task-manager/task-manager.component';
+import { ConfirmBoxComponent } from './confirm-box/confirm-box.component';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { LoaderComponent } from './loader/loader.component';
 // import { SyllabusComponent } from './syllabus/syllabus.component';
 // import { GenNotesComponent } from './gen-notes/gen-notes.component';
 // import { ItemComponent } from './item/item.component';
@@ -68,6 +73,8 @@ import { TaskManagerComponent } from './task-manager/task-manager.component';
     RouterModule,
     AppRoutingModule,
     MatProgressBarModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -76,6 +83,11 @@ import { TaskManagerComponent } from './task-manager/task-manager.component';
     AppComponent,
     AdminLayoutComponent,
     AuthComponent,
+    PasswordResetComponent,
+    ConfirmBoxComponent,
+    LoaderComponent,
+
+
   ],
   providers: [
     AuthModule,
@@ -89,5 +101,6 @@ import { TaskManagerComponent } from './task-manager/task-manager.component';
     }
   ],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }
